@@ -1,0 +1,103 @@
+import React, { useState, useContext, useEffect } from "react";
+import { Range, getTrackBackground } from "react-range";
+import { FilterContext } from "../../../context/filter/FilterProvider";
+import { useLocation } from "react-router-dom";
+
+const Price = () => {
+  const location = useLocation();
+
+  const context = useContext(FilterContext);
+  const [values, setValues] = useState([0, 500]);
+  const price = context.selectedPrice;
+  const setSelectedPrice = context.setSelectedPrice;
+  // const [url, setUrl] = useState();
+
+  // useEffect(() => {
+  // const pathname = location.pathname;
+  // setUrl(pathname);
+  // }, []);
+
+  const priceHandle = (value) => {
+    if (value) {
+      setSelectedPrice({ min: value[0], max: value[1] });
+      setValues(value);
+      // router.push(
+      //   `${url}?title=${context.categoryTitle}&parent=${context.parentCategoryTitle}&child=${context.subCategoryTitle}&slug=${context.slug}&brand=${context.selectedBrands}&color=${context.selectedColor}&size=${context.selectedSize}&minPrice=${context.selectedPrice?.min}&maxPrice=${context.selectedPrice?.max}`,
+      //   undefined,
+      //   { shallow: true }
+      // );
+    }
+  };
+
+  return (
+    <div className="collection-collapse-block border-0 open">
+      <h3 className="collapse-block-title">price</h3>
+      <div className="collection-collapse-block-content">
+        <div className="wrapper mt-3">
+          <div className="range-slider">
+            <Range
+              values={values}
+              step={10}
+              min={0}
+              max={500}
+              onChange={(price) => {
+                priceHandle(price);
+              }}
+              renderTrack={({ props, children }) => (
+                <div
+                  onMouseDown={props.onMouseDown}
+                  onTouchStart={props.onTouchStart}
+                  style={{
+                    ...props.style,
+                    height: "36px",
+                    display: "flex",
+                    width: "100%",
+                  }}
+                >
+                  <output style={{ marginTop: "30px" }}>{values[0]}</output>
+                  <div
+                    ref={props.ref}
+                    style={{
+                      height: "5px",
+                      width: "100%",
+                      borderRadius: "4px",
+                      backgrounds: getTrackBackground({
+                        values,
+                        colors: ["#ccc", "#f84c3c", "#ccc"],
+                        min: price.min,
+                        max: price.max,
+                      }),
+                      alignSelf: "center",
+                    }}
+                    className="__me"
+                  >
+                    {children}
+                  </div>
+                  <output style={{ marginTop: "30px" }}>{values[1]}</output>
+                </div>
+              )}
+              renderThumb={({ props }) => (
+                <div
+                  {...props}
+                  style={{
+                    ...props.style,
+                    height: "16px",
+                    width: "16px",
+                    borderRadius: "60px",
+                    backgroundColor: "#f84c3c",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    boxShadow: "0px 2px 6px #AAA",
+                  }}
+                ></div>
+              )}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Price;

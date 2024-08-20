@@ -8,7 +8,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Detector } from "react-detect-offline";
 import { store, persistor } from "./store";
 import App from "./App.react";
-import "./assets/sass/loading.scss";
 import { Provider as P, ErrorBoundary } from "@rollbar/react";
 // import { unregister } from "./ServiceWorker";
 import { internetConnectionHandler } from "./hooks";

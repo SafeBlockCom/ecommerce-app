@@ -1,3 +1,4 @@
+import { ERROR_ACTION } from "../../store/actions";
 import { CONSTANTS, LOCAL_STORAGE_SERVICE } from "../../utils";
 
 function capitalizeFirstLetter(string) {
@@ -180,7 +181,7 @@ function redirectToPath(path, reflectPayment = false) {
     // window.onunload = null;
     window.onbeforeunload = null;
   }
-  window.location.href = path;
+  // window.location.href = path;
 }
 
 function redirectToPathAndClearLocalStorage(
@@ -200,7 +201,7 @@ function redirectToPathAndClearLocalStorage(
       window.opener.postMessage(msg, store_redirect_url);
       window.close();
     } else {
-      window.location.href = path;
+      // window.location.href = path;
     }
   }
   LOCAL_STORAGE_SERVICE._clearLocalStorage();
@@ -222,6 +223,48 @@ const makeInteger = (val = 0) => {
   return isNaN(val) ? val.replace(",", "") : val;
 };
 
+const formatFailureApiResponse = (error) => {
+  const error_response = error?.response;
+  const errorResponse = error_response?.data?.status;
+  const errorBody = error_response?.data?.body;
+  const error_message = ERROR_ACTION.ERROR(error_response);
+  return { error_response, error_message, errorBody, errorResponse };
+};
+
+function getSelectedVariant(product) {
+  let { default_variant_id, variants, selected_variant } = product;
+  if (HELPER.isNotEmpty(selected_variant)) {
+    return selected_variant;
+  } else if (HELPER.isNotEmpty(variants)) {
+    let selectedVariant = HELPER.isNotEmpty(variants?.variant_id)
+      ? variants
+      : variants.find((variant) => variant.variant_id === default_variant_id);
+    if (HELPER.isNotEmpty(selectedVariant.attributes)) {
+      selectedVariant.attributes = selectedVariant.attributes?.map((e) =>
+        Array.isArray(e?.options) ? { ...e, options: e?.options[0] } : e
+      );
+    } else {
+      selectedVariant.attributes = product.attributes;
+    }
+    return selectedVariant;
+  }
+  return product;
+}
+//**blob to dataURL**
+function blobToDataURL(blob, callback = "") {
+  var a = new FileReader();
+  if (callback) {
+    a.onload = function (e) {
+      callback(e.target.result);
+    };
+  }
+  a.readAsDataURL(blob);
+}
+
+function firstLetterCapitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 const HELPER = {
   reverseObject,
   redirectToPath,
@@ -238,6 +281,7 @@ const HELPER = {
   setFavicon,
   checkLocalStorage,
   isEmpty,
+  formatFailureApiResponse,
 
   ucfirst,
   parseToFloat,
@@ -250,5 +294,9 @@ const HELPER = {
   makeInteger,
 
   parseFloatFixed,
+
+  getSelectedVariant,
+  blobToDataURL,
+  firstLetterCapitalize,
 };
 export default HELPER;

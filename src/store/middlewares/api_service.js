@@ -1,523 +1,250 @@
-import axios from "axios";
+// import axios from 'axios'
 import {
-  LOCAL_STORAGE_SERVICE,
-  history,
   API_REQUEST,
   API_ENDPOINTS,
-  CONSTANTS,
-  ROUTE_CONSTANTS
+  HELPER,
+  COOKIE_STORAGE_SERVICE,
 } from "../../utils";
 
-const baseURL = process.env.REACT_APP_API_URL;  
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
 export const apiService = {
-  // ORDER INITIATE
-  orderInitiateAbandoned,
-  orderInitiate,
-  verifyCatalogOrder,
-  identifyCustomer,
-  // META DATA
-  getMetaData,
-  getCountryDropdownList,
-  getAllNetworks,
-  // OTP
-  verifyOtp,
-  resendOtp,
-  sendOtp,
-  sendOtpAfterCheckout,
-  // Addresses
-  getAddresses,
-  addAddress,
-  updateAddress,
-  deleteAddress,
-  getAddressDropdownByCustomerId,
-  getLocationDetails,
-  // PAYMENT METHODS
-  getPaymentMethods,
-  setPaymentMethod,
-  validatePaymentMethod,
-  deleteCreditCard,
-  setDefaultPaymentMethod,
-  getNIFTDetails,
-  getQisstPayPaymentInstrument,
-  savePaymentInstrument,
-  // SHIPPING METHODS
-  getShippingMethods,
-  setShippingMethod,
-  // CART
-  getCartdetail,
-  updateCartdetail,
-  applyVoucher,
-  applyVoucherifyVoucher,
-  // PROFILE
-  getCustomerProfile,
-  updateCustomerProfile,
-  // ORDER
-  updateOrderAddress,
-  placeOrder,
-  getPaymentInfo,
-  orderCancel,
+  getApplicationMetaData,
+  getCustomerMetaData,
+  getHomePage,
+  getMegaMenu,
+  getFeaturedItems,
+
+  createYourCloset,
+  updateClosetSettings,
+  uploadYourClosetImage,
+  getClosetDetail,
+  getClosetProductList,
+  getClosetCategories,
+
+  getAllItems,
+  getAddItemMetaData,
+  addItemToCloset,
+
+  getCategory,
+  getCategoryItems,
+
+  getProductDetail,
+  getRecentlyViewed,
+
+  getCountryMetaData,
+  getCountriesList,
+
+  getSignupEvent,
+  getSignInEvent,
+  getPhoneVerification,
+  getPhoneOtpVerify,
+  getPhoneOtpReSend,
 };
 
-/*
- *ORDER INITIATE
- */
-
- async function orderInitiateAbandoned(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.INITIATE_ORDER_ABANDONED,
-    false,
-    true
-  )(requestData);
-  return response;
-}
-
-async function orderInitiate(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.INITIATE_ORDER,
-    false,
-    true
-  )(requestData);
-  return response;
-}
-
-async function verifyCatalogOrder(product_reference) {
-  let response = await API_REQUEST(
+async function getApplicationMetaData() {
+  return API_REQUEST(
     "get",
-    `${baseURL}` +
-      API_ENDPOINTS.INITIATE_CATLOG_ORDER +
-      "/" +
-      product_reference,
-    false,
-    true
-  )();
-  return response;
-}
-
-async function identifyCustomer(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.IDENTIFY_CUSTOMER,
-    true,
+    `${baseURL}${API_ENDPOINTS.GET_APP_METADATA}`,
     false
-  )(requestData);
-  return response;
+  )();
 }
 
-/*
- *META DATA APIS
- */
-async function getMetaData() {
-  let response = await API_REQUEST(
-    "get",
-    `${baseURL}` + API_ENDPOINTS.GET_META,
-    true,
+async function getCustomerMetaData() {
+  return API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.GET_CUSTOMER_METADATA}`,
     true
   )();
-  return response;
 }
 
-async function getCountryDropdownList() {
+async function getHomePage() {
+  console.log(`${baseURL}` + API_ENDPOINTS.GET_HOMEPAGE_CONTENTS);
   let response = await API_REQUEST(
     "get",
-    `${baseURL}` + API_ENDPOINTS.GET_COUNTRY_DROPDOWN_LIST,
-    false,
-    true
-  )();
-  return response;
-}
-
-async function getAllNetworks(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.GET_ALL_NETWORKS,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-/*
- * OTP
- */
-async function verifyOtp(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.OTP_VERIFY,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function resendOtp(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.OTP_RESEND,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-async function sendOtp(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.OTP_SEND,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function sendOtpAfterCheckout(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.CHECKOUT_OTP_SEND,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-/*
- * Addresses
- */
-
-async function addAddress(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.ADD_ADDRESS,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function updateAddress(requestData) {
-  let response = await API_REQUEST(
-    "put",
-    `${baseURL}` + API_ENDPOINTS.UPDATE_ADDRESS,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function deleteAddress(requestData) {
-  const access_token = LOCAL_STORAGE_SERVICE._getAccessTokenFromSession();
-  let axiosrequest = axios
-    .delete(`${baseURL}` + API_ENDPOINTS.DELETE_ADDRESS, {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept-Language": LOCAL_STORAGE_SERVICE._getFromLocalStorage("locale"),
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + access_token,
-      },
-      data: requestData,
-    })
-    .then(
-      (response) => {
-        return Promise.resolve(response);
-      },
-      (error) => {
-        // trigger 'loading=false' event here
-        if(error?.response?.status === CONSTANTS.HTTP_RESPONSE.UNDER_MAINTAINANCE){
-          history.replace(ROUTE_CONSTANTS.STATUS)
-        }
-        else if (error?.response?.status === CONSTANTS.HTTP_RESPONSE.UNAUTHORIZED) {
-          history.push("/401");
-        } else if (
-          error?.response?.status === CONSTANTS.HTTP_RESPONSE.SERVER_ERROR
-        ) {
-          history.push("/500");
-        } else {
-          return Promise.reject(error);
-        }
-      }
-    );
-  // let response = await API_REQUEST(
-  //   "delete",
-  //   `${baseURL}` + API_ENDPOINTS.DELETE_ADDRESS,
-  //   true,
-  //   true
-  // )(requestData);
-  return axiosrequest;
-}
-
-async function getAddressDropdownByCustomerId(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.GET_ADDRESS_DROPDOWN_BY_CUSTOMER_ID,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function getLocationDetails(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.GET_LOCATION_DETAILS,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function getAddresses(requestData) {
-  let response = await API_REQUEST(
-    "get",
-    `${baseURL}` + API_ENDPOINTS.GET_ADDRESS,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-/*
- * PAYMENT METHODS
- */
-async function getPaymentMethods() {
-  let response = await API_REQUEST(
-    "get",
-    `${baseURL}` + API_ENDPOINTS.GET_ALL_PAYMENT_METHODS,
-    true,
-    true
-  )();
-  return response;
-}
-async function setPaymentMethod(requestData) {
-  let response = await API_REQUEST(
-    "put",
-    `${baseURL}` + API_ENDPOINTS.SET_PAYMENT_METHOD,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function setDefaultPaymentMethod(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.SET_DEFAULT_PAYMENT_METHOD,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function getNIFTDetails() {
-  let response = await API_REQUEST(
-    "get",
-    `${baseURL}` + API_ENDPOINTS.PAYMENT_PROCESSOR_DETAIL,
-    true,
-    true
-  )();
-  return response;
-}
-
-
-async function getQisstPayPaymentInstrument() {
-  let response = await API_REQUEST(
-    "get",
-    `${baseURL}` + API_ENDPOINTS.PAYMENT_PROCESSOR_DETAIL,
-    true,
-    true
-  )();
-  return response;
-}
-
-async function savePaymentInstrument(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.SAVE_PAYMENT_INSTRUMENT,
-    true,
+    `${baseURL}` + API_ENDPOINTS.GET_HOMEPAGE_CONTENTS,
     false
-  )(requestData);
-  return response;
-}
-
-async function validatePaymentMethod(requestData, bypass_expiry_enabled=false) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.VALIDATE_PAYMENT_METHOD,
-    true,
-    true,
-    bypass_expiry_enabled
-  )(requestData);
-  return response;
-}
-
-async function deleteCreditCard(requestData) {
-  const access_token = LOCAL_STORAGE_SERVICE._getAccessTokenFromSession();
-  let axiosrequest = axios
-    .delete(`${baseURL}` + API_ENDPOINTS.DELETE_SAVED_CARD, {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept-Language": LOCAL_STORAGE_SERVICE._getFromLocalStorage("locale"),
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + access_token,
-      },
-      data: requestData,
-    })
-    .then(
-      (response) => {
-        return Promise.resolve(response);
-      },
-      (error) => {
-        // trigger 'loading=false' event here
-        if(error?.response?.status === CONSTANTS.HTTP_RESPONSE.UNDER_MAINTAINANCE){
-          history.replace(ROUTE_CONSTANTS.STATUS)
-        }
-        else if (error?.response?.status === CONSTANTS.HTTP_RESPONSE.UNAUTHORIZED) {
-          history.push("/401");
-        } else if (
-          error?.response?.status === CONSTANTS.HTTP_RESPONSE.SERVER_ERROR
-        ) {
-          history.push("/500");
-        } else {
-          return Promise.reject(error);
-        }
-      }
-    );
-  // let response = await API_REQUEST(
-  //   "delete",
-  //   `${baseURL}` + API_ENDPOINTS.DELETE_ADDRESS,
-  //   true,
-  //   true
-  // )(requestData);
-  return axiosrequest;
-}
-/*
- * SHIPPING METHODS
- */
-async function getShippingMethods(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.GET_ALL_SHIPMENT_METHODS,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-async function setShippingMethod(requestData) {
-  let response = await API_REQUEST(
-    "put",
-    `${baseURL}` + API_ENDPOINTS.SET_SHIPMENT_METHOD,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-/*
- * CART
- */
-async function getCartdetail() {
-  let response = await API_REQUEST(
-    "get",
-    `${baseURL}` + API_ENDPOINTS.GET_CART_DETAILS,
-    true,
-    true
   )();
   return response;
 }
 
-async function updateCartdetail(bypass_expiry_enabled=false) {
+async function getMegaMenu() {
   let response = await API_REQUEST(
     "get",
-    `${baseURL}` + API_ENDPOINTS.UPDATE_CART_ITEMS,
-    true,
-    true,
-    bypass_expiry_enabled
+    `${baseURL}` + API_ENDPOINTS.GET_MEGA_MENU_CONTENTS,
+    false
   )();
   return response;
 }
 
-async function applyVoucher(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.APPLY_VOUCHER,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-
-async function applyVoucherifyVoucher(requestData) {
-  let response = await API_REQUEST(
-    "post",
-    `${baseURL}` + API_ENDPOINTS.APPLY_VOUCHERIFY_VOUCHER,
-    true,
-    true
-  )(requestData);
-  return response;
-}
-/*
- * PROFILE
- */
-
-async function getCustomerProfile() {
-  let response = await API_REQUEST(
+async function getFeaturedItems() {
+  return await API_REQUEST(
     "get",
-    `${baseURL}` + API_ENDPOINTS.CUSTOMER_PROFILE,
-    true,
+    `${baseURL}` + API_ENDPOINTS.GET_HOMEPAGE_FEATURED_SECTION,
+    false
+  )();
+}
+
+async function getProductDetail(handle) {
+  let access_token = COOKIE_STORAGE_SERVICE._getAccessToken();
+  return await API_REQUEST(
+    "post",
+    // HELPER.isNotEmpty(access_token)
+    //   ? `${baseURL}${API_ENDPOINTS.GET_CUSTOMER_PRODUCT_DETAIL}/${handle}`
+    // :
+    `${baseURL}${API_ENDPOINTS.GET_PRODUCT_DETAIL}/${handle}`,
+    HELPER.isNotEmpty(access_token)
+  )();
+}
+
+async function getRecentlyViewed() {
+  return await API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.GET_RECENTLY_VIEWED_PRODUCTS}`,
     true
   )();
-  return response;
 }
 
-async function updateCustomerProfile(requestData) {
+async function createYourCloset(data) {
+  return await API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.CREATE_CLOSET}`,
+    true
+  )(data);
+}
+
+async function updateClosetSettings(data, handle) {
+  return await API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.CLOSET}/${handle}/edit`,
+    true
+  )(data);
+}
+async function uploadYourClosetImage(requestData) {
   let response = await API_REQUEST(
-    "put",
-    `${baseURL}` + API_ENDPOINTS.UPDATE_CUSTOMER_PROFILE,
-    true,
+    "post",
+    `${baseURL}` + API_ENDPOINTS.CLOSET_IMG_UPLOAD,
     true
   )(requestData);
   return response;
 }
-/*
- * ORDER
- */
-async function updateOrderAddress(requestData) {
-  let response = await API_REQUEST(
-    "put",
-    `${baseURL}` + API_ENDPOINTS.UPDATE_ORDER_ADDRESS,
-    true,
+
+async function getClosetDetail(handle) {
+  return await API_REQUEST(
+    "get",
+    `${baseURL}${API_ENDPOINTS.CLOSET}/${handle}`,
+    true
+  )();
+}
+
+async function getClosetCategories(handle, catSlug) {
+  return await API_REQUEST(
+    "get",
+    `${baseURL}${API_ENDPOINTS.CLOSET}/${handle}/category/${catSlug}`,
+    true
+  )();
+}
+
+async function getClosetProductList(handle, pageNumber) {
+  return await API_REQUEST(
+    "get",
+    `${baseURL}${API_ENDPOINTS.CLOSET}/${handle}?page=${pageNumber}`,
+    true
+  )();
+}
+
+async function getCategory(handle) {
+  return await API_REQUEST(
+    "get",
+    `${baseURL}${API_ENDPOINTS.GET_CATEGORY}/${handle}`,
+    true
+  )();
+}
+
+async function getCategoryItems(handle, data) {
+  return await API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.GET_CATEGORY}/${handle}/products`,
+    false
+  )(data);
+}
+
+async function getAllItems() {
+  return await API_REQUEST(
+    "get",
+    `${baseURL}${API_ENDPOINTS.GET_ALL_PRODUCTS}`,
+    false
+  )();
+}
+
+async function getAddItemMetaData() {
+  return await API_REQUEST(
+    "get",
+    `${baseURL}${API_ENDPOINTS.GET_METADATA_PRODUCTS}`,
+    true
+  )();
+}
+
+async function addItemToCloset(requestData) {
+  return await API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.ADD_PRODUCT}`,
     true
   )(requestData);
-  return response;
 }
 
-async function placeOrder(requestData, bypass_expiry_enabled=false) {
-  let response = await API_REQUEST(
+async function getSignupEvent(data) {
+  return await API_REQUEST(
     "post",
-    `${baseURL}` + API_ENDPOINTS.PLACE_ORDER,
-    true,
-    true,
-    bypass_expiry_enabled
-  )(requestData);
-  return response;
+    `${baseURL}` + API_ENDPOINTS.AUTH_SIGNUP,
+    false
+  )(data);
 }
 
-async function getPaymentInfo(requestData,bypass_expiry_enabled=false) {
-  let response = await API_REQUEST(
+async function getSignInEvent(data) {
+  return await API_REQUEST(
     "post",
-    `${baseURL}` + API_ENDPOINTS.GET_PAYMENT_INFO,
-    true,
-    true,
-    bypass_expiry_enabled
-  )(requestData);
-  return response;
+    `${baseURL}` + API_ENDPOINTS.AUTH_SIGNIN,
+    false
+  )(data);
 }
 
-async function orderCancel(requestData) {
-	let response = await API_REQUEST(
-		'post',
-		`${baseURL}` + API_ENDPOINTS.ORDER_CANCEL,
-		true,
-		true
-	)(requestData)
-	return response
+async function getPhoneVerification(data) {
+  return await API_REQUEST(
+    "post",
+    `${baseURL}` + API_ENDPOINTS.AUTH_OTP_SEND,
+    true
+  )(data);
+}
+
+async function getPhoneOtpReSend(data) {
+  return await API_REQUEST(
+    "post",
+    `${baseURL}` + API_ENDPOINTS.AUTH_OTP_RESEND,
+    true
+  )(data);
+}
+
+async function getPhoneOtpVerify(data) {
+  return await API_REQUEST(
+    "post",
+    `${baseURL}` + API_ENDPOINTS.AUTH_OTP_VERIFY,
+    true
+  )(data);
+}
+
+async function getCountryMetaData() {
+  return await API_REQUEST(
+    "get",
+    `${baseURL}` + API_ENDPOINTS.COUNTRIES_METADATA,
+    false
+  )();
+}
+
+async function getCountriesList() {
+  return await API_REQUEST(
+    "get",
+    `${baseURL}` + API_ENDPOINTS.COUNTRIES_LIST,
+    false
+  )();
 }

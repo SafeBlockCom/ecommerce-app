@@ -1,57 +1,34 @@
 export const API_ENDPOINTS = {
-  // Customer
-  GET_ADDRESS: "v1/customer/address",
-  UPDATE_ADDRESS: "v1/customer/address",
-  ADD_ADDRESS: "v1/customer/address",
-  DELETE_ADDRESS: "v1/customer/address",
+  // Metadata
 
-  CUSTOMER_PROFILE: "v1/customer/profile",
-  UPDATE_CUSTOMER_PROFILE: 'v1/multipage/order/customer/profile/update',
+  COUNTRIES_METADATA: "/countries-meta-data",
+  COUNTRIES_LIST: "/country-list",
 
-  ORDER_CANCEL: "v1/customer/order/change-status",
+  // HomePage
+  GET_APP_METADATA: "/meta-data",
+  GET_CUSTOMER_METADATA: "/customer",
+  GET_AUTH_APP_METADATA: "/auth/meta",
+  GET_HOMEPAGE_CONTENTS: "/homepage",
+  GET_MEGA_MENU_CONTENTS: "/mega-menu",
+  GET_HOMEPAGE_FEATURED_SECTION: "/homepage/featured-section",
 
-  GET_LOCATION_DETAILS: "v1/customer/get-location-details",
+  GET_CATEGORY: "/categories",
 
-  // VALIDATE ACCESS TOKEN
-  IDENTIFY_CUSTOMER: "v1/token/identify-customer",
+  GET_PRODUCT_DETAIL: "/product",
+  GET_ALL_PRODUCTS: "/products",
+  GET_METADATA_PRODUCTS: "/meta-data/product",
+  ADD_PRODUCT: "/add/product",
+  GET_RECENTLY_VIEWED_PRODUCTS: "/recently-viewed-products",
 
-  // ORDER - ADDRESS
-  UPDATE_ORDER_ADDRESS: "v1/order/customer-address",
+  AUTH_SIGNUP: "/register",
+  AUTH_SIGNIN: "/login",
+  AUTH_OTP_SEND: "/send/otp",
+  AUTH_OTP_VERIFY: "/verify/otp",
+  AUTH_OTP_RESEND: "/resend/otp",
 
-  // ORDER - PAYMENT METHOD
-  GET_ALL_PAYMENT_METHODS: "v1/multipage/order/payment-method",
-  SET_PAYMENT_METHOD: "v1/multipage/order/payment-method",
-  VALIDATE_PAYMENT_METHOD: "v1/multipage/order/validate-payment",
-  SET_DEFAULT_PAYMENT_METHOD: "v1/multipage/order/set-default-payment-method",
+  CREATE_CLOSET: "/closet/create",
+  CLOSET_IMG_UPLOAD: "/closet/image-upload",
+  CLOSET: "/closet",
 
-  DELETE_SAVED_CARD: "v1/order/customer/instrument",
-  PAYMENT_PROCESSOR_DETAIL: "v1/order/payment-processor-detail",
-  SAVE_PAYMENT_INSTRUMENT: "v1/order/save-payment-instrument",
-
-  // ORDER - SHIPPING METHOD
-  GET_ALL_SHIPMENT_METHODS: "v1/multipage/order/shipment-method",
-  SET_SHIPMENT_METHOD: "v1/multipage/order/shipment-method",
-
-  // ORDER
-  INITIATE_ORDER: "v1/multipage/order/initiate",
-  INITIATE_ORDER_ABANDONED: "v1/multipage/order/abandoned-checkout/initiate",
-  INITIATE_CATLOG_ORDER: "v1/product-catalogue/create-order",
-  GET_CART_DETAILS: "v1/multipage/order/checkout-detail",
-  PLACE_ORDER: "v1/multipage/order/place",
-
-  UPDATE_CART_ITEMS: "v1/order/cart-details", 
-  APPLY_VOUCHER: "v1/order/apply-voucher",
-  APPLY_VOUCHERIFY_VOUCHER: "v1/order/apply-voucherify-voucher",
-  GET_PAYMENT_INFO: "v1/order/get-payment-info",
-  
-  // OTP
-  CHECKOUT_OTP_SEND: "v1/checkout/otp/send",
-  OTP_SEND: "v1/otp/send",
-  OTP_VERIFY: "v1/otp/verify",
-  OTP_RESEND: "v1/otp/resend",
-
-  // META
-  GET_META: "v1/metadata",
-  GET_COUNTRY_DROPDOWN_LIST: "v1/countries-dropdown-list",
-  GET_ALL_NETWORKS: "v1/network-providers/list",
+  GET_CATEGORY_DETAIL: "/categories",
 };

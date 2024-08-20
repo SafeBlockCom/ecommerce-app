@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { HELPER, CONSTANTS } from "../../utils";
-import { alertActions } from "../../store/actions";
-import { useCustomAlerts } from "../../hooks";
-// import { useCustomAlerts, useToaster } from "../../hooks";
+import { ALERT_ACTIONS } from "../../store/actions";
 
 let timeoutTime;
 
@@ -21,7 +19,7 @@ function AlertComponent() {
     return () => {
       if (!HELPER.isEmpty(message) && hide) {
         HELPER.scrollScreen();
-        dispatch(alertActions.clear());
+        dispatch(ALERT_ACTIONS.clear());
       }
       clearTimeout(timeoutTime);
     };
@@ -50,7 +48,7 @@ function AlertComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alert]);
 
-  return useCustomAlerts();
+  return <></>;
 }
 
 export default AlertComponent;

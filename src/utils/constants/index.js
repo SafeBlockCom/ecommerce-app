@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from "./apiEndpoints";
+import { API_ENDPOINTS } from "./apiendpoints";
 import { ERROR_MSGS } from "./errorMessages";
 import { CONSTANTS } from "./responseConstants";
 import { ROUTE_CONSTANTS } from "../../routes";

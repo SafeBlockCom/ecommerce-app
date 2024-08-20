@@ -1,9 +1,6 @@
 import { ACTION_CONSTANTS } from "../actionTypes";
 
-import queryString from "query-string";
-
 const initState = {
-  showPageLoader: false,
   showBtnLoader: false,
   disableNextBtn: false,
   showBackBtnLoader: false,

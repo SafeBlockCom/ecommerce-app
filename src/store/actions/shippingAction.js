@@ -1,7 +1,6 @@
 import { ERROR_CONSTANTS } from "../actionTypes";
 import { apiService } from "../middlewares/api_service";
-import { alertActions } from "./index";
-import { errorAction } from "./errorAction";
+import { ALERT_ACTIONS } from "./index";
 import { CONSTANTS, HELPER } from "../../utils";
 
 export const shippingAction = {
@@ -39,14 +38,14 @@ function get_shipping_method(requestData) {
       })
       .catch((error) => {
         const error_response = error?.response;
-        const error_message = errorAction(error_response);
-        const errorBody = error_response?.data?.body;
+        const error_message = "";
+        // const errorBody = error_response?.data?.body;
 
         if (error_response?.status === CONSTANTS.HTTP_RESPONSE.SERVER_ERROR) {
           dispatch(errorPage(error_message));
         } else {
           dispatch(failure(error_message?.message));
-          dispatch(alertActions.error(error_message?.message));
+          dispatch(ALERT_ACTIONS.error(error_message?.message));
         }
       });
   };

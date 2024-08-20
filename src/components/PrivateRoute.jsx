@@ -1,18 +1,16 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
-import { LOCAL_STORAGE_SERVICE } from "../utils";
+import { Navigate, Outlet } from "react-router-dom";
+import {
+  COOKIE_STORAGE_SERVICE,
+  LOCAL_STORAGE_SERVICE,
+  ROUTE_CONSTANTS,
+} from "../utils";
 
-export const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) => {
-      return LOCAL_STORAGE_SERVICE._getAccessTokenFromSession(
-        "access_token"
-      ) ? (
-        <Component {...props} />
-      ) : (
-        <Navigate to="/" state={{ from: props.location }} />
-      );
-    }}
-  />
-);
+const PrivateRoute = () => {
+  const isAuthenticated =
+    COOKIE_STORAGE_SERVICE._getAccessTokenFromSession("access_token");
+
+  return isAuthenticated ? <Outlet /> : <Navigate to={ROUTE_CONSTANTS.BASE} />;
+};
+
+export default PrivateRoute;

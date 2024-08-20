@@ -1,19 +1,4 @@
 import useOuterClick from "./outerClick";
-import {
-  useBackActionHandler,
-  internetConnectionHandler,
-  useCustomAlerts,
-  useNativeLoaderHandler,
-  useMobileHandlers,
-  useMobileAlerts,
-} from "./appHandlers";
+import { internetConnectionHandler } from "./appHandlers";
 
-export {
-  useOuterClick,
-  useBackActionHandler,
-  internetConnectionHandler,
-  useNativeLoaderHandler,
-  useMobileHandlers,
-  useMobileAlerts,
-  useCustomAlerts,
-};
+export { useOuterClick, internetConnectionHandler };

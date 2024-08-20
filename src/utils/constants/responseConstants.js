@@ -34,12 +34,6 @@ const HTTP_RESPONSE = {
   UNDER_MAINTAINANCE: 503,
 };
 
-const SCREEN_REDIRECT = {
-  PHONE: "phone",
-  OTP: "otp",
-  CHECKOUT: "checkout",
-};
-
 export const CONSTANTS = {
   // Payment Screen
   DEFAULT_PAYMENT_METHOD_UI: "none",
@@ -76,5 +70,11 @@ export const CONSTANTS = {
   DISCOUNT_TYPE_NAME: {
     FLAT: 1,
     PERCENTAGE: 2,
+  },
+  PRODUCT_ADDED: {
+    PHOTO_AND_DESCRIPTION: "photo_and_description",
+    ITEM_INFORMATION: "item_information",
+    SHIPMENT_AND_LOCATION: "shipment_and_location",
+    VARIANTS: "product_variants",
   },
 };
