@@ -62,14 +62,12 @@ const Header = (props) => {
                 >
                   <Logo logo={logoName} />
                 </div>
-                <div>
-                  <SearchNavigation />
-                </div>
+                <div>{/* <SearchNavigation /> */}</div>
                 <div className="menu-left pull-right">
                   <div>
                     <div className="icon-nav">
                       <ul>
-                        <li className="onhover-div mobile-search">
+                        {/* <li className="onhover-div mobile-search">
                           <div>
                             <Media
                               src={IMAGE_SRC.SEARCH}
@@ -78,7 +76,7 @@ const Header = (props) => {
                               alt=""
                             />
                           </div>
-                        </li>
+                        </li> */}
                         {/*Header Cart Component */}
                         <CartContainer icon={IMAGE_SRC.CART} />
                         <li
