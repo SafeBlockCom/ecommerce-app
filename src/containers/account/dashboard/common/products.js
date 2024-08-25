@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProductCatalog = ({ product }) => {
   const navigate = useNavigate();
-  console.log("product: ", product);
+
   return (
     <tr>
       <th scope="row">

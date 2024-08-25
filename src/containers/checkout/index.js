@@ -1,14 +1,25 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Media, Container, Form, Row, Col } from "reactstrap";
 import CartContext from "../../context/cart";
 import { CommonLayout } from "../../components";
 import { useForm } from "react-hook-form";
 import { CurrencyContext } from "../../context/Currency/CurrencyContext";
-import { HELPER, IMAGE_SRC } from "../../utils";
+import { HELPER, IMAGE_SRC, ROUTE_CONSTANTS } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { ORDER_ACTIONS } from "../../store/actions";
+import { useNavigate } from "react-router-dom";
+import CheckoutCartInfo from "../cart/checkout-cart-info";
 
 const CheckoutPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { customerRef, closetRef } = useSelector((state) => state.auth);
+  const { order_ref } = useSelector((state) => state.order);
+
   const cartContext = useContext(CartContext);
   const cartItems = cartContext.state;
+  const cartShipmentTotal = cartContext.cartShipmentTotal;
   const cartTotal = cartContext.cartTotal;
   const curContext = useContext(CurrencyContext);
   const symbol = curContext.selectedCurr.symbol;
@@ -20,18 +31,44 @@ const CheckoutPage = () => {
     formState: { errors },
   } = useForm(); // initialise the hook
 
+  useEffect(() => {
+    if (HELPER.isNotEmpty(order_ref)) {
+      navigate(ROUTE_CONSTANTS.PAYMENT);
+    }
+  }, [order_ref]);
+
+  // router.push({
+  //   pathname: "/order-success",
+  //   state: { items: cartItems, orderTotal: cartTotal, symbol: symbol },
+  // });
   const checkhandle = (value) => {
     setPayment(value);
   };
 
   const onSubmit = (data) => {
     if (data !== "") {
-      alert("You submitted the form and stuff!");
-      console.log("register: ", data);
-      // router.push({
-      //   pathname: "/order-success",
-      //   state: { items: cartItems, orderTotal: cartTotal, symbol: symbol },
-      // });
+      const orderData = {
+        total_amount: cartTotal + cartShipmentTotal,
+        sub_total_amount: cartTotal,
+        discount_amount: 0,
+        shipment_charges: cartShipmentTotal,
+        products: cartContext.items,
+        closet_ref: closetRef,
+        customer_ref: customerRef,
+        billing_details: {
+          f_name: data?.first_name,
+          l_name: data?.last_name,
+          email: data?.email,
+          phone_number: data?.phone,
+          country: data?.country,
+          address: data?.address,
+          city: data?.city,
+          state: data?.state,
+          postal_code: data?.postcode,
+        },
+        payment: payment,
+      };
+      dispatch(ORDER_ACTIONS.CREATE_ORDER(orderData));
     } else {
       errors.showMessages();
     }
@@ -41,8 +78,6 @@ const CheckoutPage = () => {
     obj[event.target.name] = event.target.value;
     setObj(obj);
   };
-
-  console.log("cartItems: ", cartItems);
 
   return (
     <CommonLayout>
@@ -122,9 +157,7 @@ const CheckoutPage = () => {
                             {...register("country", { required: true })}
                           >
                             <option>Pakistan</option>
-                            <option>South Africa</option>
-                            <option>United State</option>
-                            <option>Australia</option>
+                            <option>United Kingdom</option>
                           </select>
                         </div>
                         <div className="form-group col-md-12 col-sm-12 col-xs-12">
@@ -139,7 +172,7 @@ const CheckoutPage = () => {
                             {...register("address", {
                               required: true,
                               min: 20,
-                              max: 120,
+                              max: 450,
                             })}
                             placeholder="Street address"
                           />
@@ -158,11 +191,11 @@ const CheckoutPage = () => {
                             onChange={setStateFromInput}
                           />
                           <span className="error-message">
-                            {errors.city && "select one city"}
+                            {errors.city && "Enter city"}
                           </span>
                         </div>
                         <div className="form-group col-md-12 col-sm-6 col-xs-12">
-                          <div className="field-label">State / County</div>
+                          <div className="field-label">State</div>
                           <input
                             //className="form-control"
                             type="text"
@@ -172,7 +205,7 @@ const CheckoutPage = () => {
                             onChange={setStateFromInput}
                           />
                           <span className="error-message">
-                            {errors.state && "select one state"}
+                            {errors.state && "Enter state"}
                           </span>
                         </div>
                         <div className="form-group col-md-12 col-sm-6 col-xs-12">
@@ -180,142 +213,46 @@ const CheckoutPage = () => {
                           <input
                             //className="form-control"
                             type="text"
-                            name="pincode"
+                            name="postcode"
                             className={`${
-                              errors.pincode ? "error_border" : ""
+                              errors.postcode ? "error_border" : ""
                             }`}
-                            {...register("pincode", { pattern: /\d+/ })}
+                            {...register("postcode", { required: true })}
                           />
                           <span className="error-message">
-                            {errors.pincode && "Required integer"}
+                            {errors.postcode && "Required string"}
                           </span>
-                        </div>
-                        <div className="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <input
-                            type="checkbox"
-                            name="create_account"
-                            id="account-option"
-                          />
-                          &ensp;{" "}
-                          <label htmlFor="account-option">
-                            Create An Account?
-                          </label>
                         </div>
                       </div>
                     </Col>
                     <Col lg="6" sm="12" xs="12">
-                      {cartItems && cartItems.length > 0 > 0 ? (
-                        <div className="checkout-details">
-                          <div className="order-box">
-                            <div className="title-box">
-                              <div>
-                                Product <span>Total</span>
-                              </div>
+                      <div className="checkout-details">
+                        <div className="order-box">
+                          <div className="title-box">
+                            <div>
+                              Product <span>Total</span>
                             </div>
-                            <Row>
-                              <ul className="qty">
-                                <li className="d-flex">
-                                  <Col md="3">Product Image</Col>
-                                  <Col md="3">
-                                    <div className="text-left">
-                                      Product Name
-                                    </div>
-                                  </Col>
-                                  <Col md="3" className="">
-                                    Price
-                                  </Col>
-                                  <Col md="2" className="">
-                                    Shipping
-                                  </Col>
-                                  <Col md="1" className="">
-                                    Product Total
-                                  </Col>
-                                </li>
-                              </ul>
-                            </Row>
-                            <Row>
-                              <ul className="qty">
-                                {cartItems.map((item, index) => (
-                                  <li key={index} className="d-flex">
-                                    <Col md="3">
-                                      {item ? (
-                                        item.image === "undefined" ? (
-                                          "false"
-                                        ) : (
-                                          <div className="back i-100">
-                                            <Media
-                                              src={`${item.image}`}
-                                              className="img-fluid m-auto"
-                                              alt=""
-                                            />
-                                          </div>
-                                        )
-                                      ) : (
-                                        ""
-                                      )}
-                                    </Col>
-                                    <Col md="3">
-                                      <div className="text-left">
-                                        {item.name}
-                                      </div>
-                                    </Col>
-                                    <Col md="3" className="">
-                                      {`${symbol} ${item.total} × ${item.qty}`}
-                                    </Col>
-                                    <Col md="2" className="">
-                                      {HELPER.isEmpty(item.shipping_cost)
-                                        ? "Free shipping"
-                                        : `${symbol} ${item.shipping_cost}`}
-                                    </Col>
-                                    <Col md="1" className="">
-                                      <span>{`${symbol} ${item.total}`}</span>
-                                    </Col>
-                                  </li>
-                                ))}
-                              </ul>
-                            </Row>
-                            <ul className="sub-total">
-                              <li>
-                                Subtotal{" "}
-                                <span className="count">
-                                  {`${symbol} ${cartTotal}`}
-                                </span>
-                              </li>
-                              <li>
-                                Shipping
-                                <div className="shipping">
-                                  <div className="shopping-option">
-                                    <input
-                                      type="checkbox"
-                                      name="free-shipping"
-                                      id="free-shipping"
-                                    />
-                                    <label htmlFor="free-shipping">
-                                      Free Shipping
-                                    </label>
-                                  </div>
-                                  <div className="shopping-option">
-                                    <input
-                                      type="checkbox"
-                                      name="local-pickup"
-                                      id="local-pickup"
-                                    />
-                                    <label htmlFor="local-pickup">
-                                      Local Pickup
-                                    </label>
-                                  </div>
-                                </div>
-                              </li>
-                            </ul>
-                            <ul className="total">
-                              <li>
-                                Total{" "}
-                                <span className="count">
-                                  {`${symbol} ${cartTotal}`}
-                                </span>
-                              </li>
-                            </ul>
                           </div>
+                          <Row>
+                            <ul className="qty">
+                              <li className="d-flex">
+                                <Col md="3">Product Image</Col>
+                                <Col md="3">
+                                  <div className="text-left">Product Name</div>
+                                </Col>
+                                <Col md="3" className="">
+                                  Price
+                                </Col>
+                                <Col md="2" className="">
+                                  Shipping
+                                </Col>
+                                <Col md="1" className="">
+                                  Product Total
+                                </Col>
+                              </li>
+                            </ul>
+                          </Row>
+                          <CheckoutCartInfo showPayment={true} />
                           <div className="payment-box">
                             <div className="upper-box">
                               <div className="payment-options">
@@ -348,6 +285,24 @@ const CheckoutPage = () => {
                                       </label>
                                     </div>
                                   </li>
+                                  <li>
+                                    <div className="radio-option stripe">
+                                      <input
+                                        type="radio"
+                                        name="payment-group"
+                                        id="payment-1"
+                                        onClick={() => checkhandle("stripe")}
+                                      />
+                                    </div>
+                                    <div className="radio-option stripe">
+                                      <label htmlFor="payment-1">
+                                        Stripe
+                                        <span className="image">
+                                          {/* <Media src={IMAGE_SRC.PAYPAL} alt="" /> */}
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </li>
                                 </ul>
                               </div>
                             </div>
@@ -362,9 +317,7 @@ const CheckoutPage = () => {
                             )}
                           </div>
                         </div>
-                      ) : (
-                        ""
-                      )}
+                      </div>
                     </Col>
                   </Row>
                 </Form>

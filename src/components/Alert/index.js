@@ -27,11 +27,6 @@ function AlertComponent() {
   }, []);
 
   useEffect(() => {
-    // removeAllToasts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clearAll]);
-
-  useEffect(() => {
     /*
       TOAST ALERTS
     */

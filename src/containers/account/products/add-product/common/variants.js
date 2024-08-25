@@ -330,29 +330,6 @@ const VariantsInfo = forwardRef((props, ref) => {
                             <h6>
                               <b>Description</b>
                             </h6>
-                            {/* {editorLoaded ? (
-                              <CKEditor
-                                editor={ClassicEditor}
-                                data={variantDescription[key] ?? ""}
-                                config={CONSTANTS.CKEDITOR_CONFIG}
-                                onReady={(editor) => {
-                                  // You can store the "editor" and use when it is needed.
-                                  console.log(
-                                    "Editor is ready to use!",
-                                    editor
-                                  );
-                                }}
-                                onChange={(event, editor) => {
-                                  const data = editor.getData();
-                                  setVariantDescription({
-                                    ...variantDescription,
-                                    [key]: data,
-                                  });
-                                }}
-                              />
-                            ) : (
-                              ""
-                            )} */}
                             <textarea
                               value={variantDescription[key]}
                               onChange={(e) =>

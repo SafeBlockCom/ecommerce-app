@@ -11,7 +11,6 @@ const CartContainer = ({ icon }) => {
 
   const context = useContext(CartContext);
   const currency_context = useContext(CurrencyContext);
-  console.log("Cur Context: ", currency_context);
   const symbol = currency_context.selectedCurr.symbol;
   const cartList = context.state;
   const total = context.cartTotal;
@@ -24,30 +23,35 @@ const CartContainer = ({ icon }) => {
           <Media src={icon} className="img-fluid" alt="" />
         </div>
         <ul className="show-div shopping-cart">
-          {cartList.map((item, index) => (
-            <CartHeader key={index} item={item} total={total} symbol={symbol} />
-          ))}
+          <div className="shopping-items cart-items">
+            {cartList.map((item, index) => (
+              <CartHeader
+                key={index}
+                item={item}
+                total={total}
+                symbol={symbol}
+              />
+            ))}
+          </div>
           {cartList.length > 0 ? (
-            <div>
-              <li>
-                <div className="total">
-                  <h5>
-                    subtotal :{" "}
-                    <span>
-                      {symbol}
-                      {total}
-                    </span>
-                  </h5>
-                </div>
-              </li>
-              <li>
-                <div className="buttons view-cart">
-                  <a href={`/cart`}>view cart</a>
-                  <a href={`/checkout`} className="checkout">
-                    checkout
-                  </a>
-                </div>
-              </li>
+            <div className="shopping-items">
+              <div className="total">
+                <h5>
+                  subtotal :{" "}
+                  <span>
+                    {symbol}
+                    {total}
+                  </span>
+                </h5>
+              </div>
+              <div className="buttons view-cart">
+                <a href={`/cart`} className="cart-btns">
+                  view cart
+                </a>
+                <a href={`/checkout`} className="cart-btns checkout">
+                  checkout
+                </a>
+              </div>
             </div>
           ) : (
             <li>

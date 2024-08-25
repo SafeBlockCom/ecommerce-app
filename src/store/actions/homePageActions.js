@@ -15,7 +15,6 @@ function FETCH_HOMEPAGE_APP_METADATA() {
     apiService
       .getApplicationMetaData()
       .then((response) => {
-        console.log(" application meta data success: ", response);
         const responseStatus = response?.data?.status;
         if (
           !HELPER.isEmpty(responseStatus) &&
@@ -26,7 +25,6 @@ function FETCH_HOMEPAGE_APP_METADATA() {
         }
       })
       .catch((error) => {
-        console.log(" application meta data: ", error);
         const { error_message } = HELPER.formatFailureApiResponse(error);
         dispatch(failure(error_message?.message));
         // dispatch(ALERT_ACTIONS.error(error_message?.message))

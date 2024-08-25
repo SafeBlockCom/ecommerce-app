@@ -23,6 +23,8 @@ import {
   ProductDetail,
   Contact,
   AboutUs,
+  Payment,
+  OrderStatus,
 } from "./containers";
 
 const routes = [
@@ -150,6 +152,33 @@ const routes = [
     protected: false,
     default: false,
     view: "Terms",
+    allowBack: false,
+  },
+  {
+    path: ROUTE_CONSTANTS.PAYMENT,
+    exact: true,
+    component: Payment,
+    protected: false,
+    default: false,
+    view: "Payment",
+    allowBack: false,
+  },
+  {
+    path: ROUTE_CONSTANTS.ORDER_STATUS_WITH_SLUG,
+    exact: false,
+    component: OrderStatus,
+    protected: false,
+    default: false,
+    view: "Order Status",
+    allowBack: false,
+  },
+  {
+    path: ROUTE_CONSTANTS.ORDER_STATUS,
+    exact: false,
+    component: OrderStatus,
+    protected: false,
+    default: false,
+    view: "Order Status",
     allowBack: false,
   },
   {

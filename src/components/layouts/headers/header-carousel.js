@@ -9,10 +9,7 @@ const HeaderCarousel = () => {
   useEffect(() => {
     setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
-  });
-
-  useEffect(() => {
-    // document.documentElement.style.setProperty("--theme-deafult", "#ff4c3b");
+    return () => window.removeEventListener("resize", handleResize);
   });
 
   function handleResize() {

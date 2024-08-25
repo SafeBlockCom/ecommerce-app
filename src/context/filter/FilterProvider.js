@@ -39,7 +39,7 @@ export const FilterProvider = ({ children }) => {
   // State management
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [categoryTitle, setCategoryTitle] = useState(title || "Shop");
-  const [categorySlug, setCategorySlug] = useState(slug || "all");
+  const [categorySlug, setCategorySlug] = useState(slug || "");
   const [parentCategoryTitle, setParentCategoryTitle] = useState(
     parentTitle || "Home"
   );
@@ -143,11 +143,11 @@ export const FilterProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (HELPER.isNotEmpty(categorySlug)) {
+    if (HELPER.isNotEmpty(categorySlug) && categorySlug !== "") {
       dispatch(
         CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(categorySlug, getFilters())
       );
-    } else if (HELPER.isEmpty(categoryTitle)) {
+    } else if (HELPER.isEmpty(categoryTitle) && categorySlug !== "") {
       dispatch(PRODUCT_ACTIONS.GET_ALL_PRODUCT_LIST());
     }
   }, []);

@@ -16,38 +16,6 @@ const Header = (props) => {
   const { logoName } = props;
 
   const { closetRef, customerRef } = useSelector((state) => state.auth);
-  console.log(`closetRef ${closetRef} customerRef ${customerRef}`);
-  useEffect(() => {
-    setTimeout(function () {
-      document.querySelectorAll(".loader-wrapper").style = "display: none";
-    }, 2000);
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const handleScroll = () => {
-    let number =
-      window.pageXOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-
-    if (number >= 300) {
-      if (window.innerWidth < 578) {
-        document.getElementById("sticky").classList.remove("fixed");
-      } else document.getElementById("sticky").classList.add("fixed");
-    } else {
-      document.getElementById("sticky").classList.remove("fixed");
-    }
-  };
-
-  const openSearch = () => {
-    document.getElementById("search-overlay").style.display = "block";
-  };
 
   return (
     <div>
@@ -62,27 +30,15 @@ const Header = (props) => {
                 >
                   <Logo logo={logoName} />
                 </div>
-                <div>{/* <SearchNavigation /> */}</div>
                 <div className="menu-left pull-right">
                   <div>
                     <div className="icon-nav">
                       <ul>
-                        {/* <li className="onhover-div mobile-search">
-                          <div>
-                            <Media
-                              src={IMAGE_SRC.SEARCH}
-                              onClick={openSearch}
-                              className="img-fluid"
-                              alt=""
-                            />
-                          </div>
-                        </li> */}
                         {/*Header Cart Component */}
                         <CartContainer icon={IMAGE_SRC.CART} />
                         <li
                           className="onhover-div create-closet btn btn-solid black-btn"
                           onClick={() => {
-                            console.log("Clicked");
                             if (HELPER.isNotEmpty(closetRef)) {
                               navigate(
                                 `${ROUTE_CONSTANTS.ACCOUNT_DASHBOARD_WITH_CLOSET_REF}/${closetRef}`

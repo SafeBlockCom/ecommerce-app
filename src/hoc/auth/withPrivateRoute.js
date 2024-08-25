@@ -29,7 +29,6 @@ export default (WrappedComponent) => {
 
   hocComponent.getInitialProps = async (context) => {
     const userAuth = await checkUserAuthentication();
-    console.log("userAuth: ", userAuth);
     // Are you an authorized user or not?
     if (!userAuth?.auth) {
       // Handle server-side and client-side rendering.

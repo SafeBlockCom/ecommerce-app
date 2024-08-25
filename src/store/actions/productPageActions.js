@@ -164,7 +164,6 @@ function GET_PRODUCT_DETAIL(handle, action = "") {
         }
       })
       .catch((error) => {
-        console.log("error: ", error);
         const { error_message } = HELPER.formatFailureApiResponse(error);
         dispatch(failure(error_message?.message));
         dispatch(ALERT_ACTIONS.error(error_message?.message));

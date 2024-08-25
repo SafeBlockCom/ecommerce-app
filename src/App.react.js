@@ -55,7 +55,9 @@ function App() {
       dispatch(HOMEPAGE_ACTIONS.FETCH_HOMEPAGE_APP_METADATA());
     }
 
-    return () => {};
+    return () => {
+      clearTimeout(2000);
+    };
   }, []);
   return (
     <>

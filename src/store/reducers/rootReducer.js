@@ -11,6 +11,7 @@ import homeReducer from "./home.reducer";
 import menuReducer from "./menu.reducer";
 import authReducer from "./auth.reducer";
 import closetReducer from "./closet.reducer";
+import orderReducer from "./order.reducer";
 
 const errorPersistConfig = {
   key: "error",
@@ -84,6 +85,19 @@ const productsConfig = {
     "standard",
   ],
 };
+const orderConfig = {
+  key: "order",
+  storage,
+  whitelist: [
+    "order_ref",
+    "payment_initiated",
+    "payment_completed",
+    "billing_details",
+    "requires_action",
+    "order",
+    "order_completed",
+  ],
+};
 
 const rootReducer = combineReducers({
   alert: alertReducer,
@@ -95,6 +109,7 @@ const rootReducer = combineReducers({
   menu: persistReducer(menuConfig, menuReducer),
   products: persistReducer(productsConfig, productsReducer),
   home: persistReducer(homeConfig, homeReducer),
+  order: persistReducer(orderConfig, orderReducer),
 });
 
 export default rootReducer;

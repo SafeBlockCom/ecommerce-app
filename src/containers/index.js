@@ -23,7 +23,8 @@ import Review from "./Review/review";
 import Search from "./Search/search";
 import TermsPage from "./Terms";
 import Wishlist from "./wishlist";
-
+import Payment from "./payment";
+import OrderStatus from "./status";
 export {
   Page404,
   Category,
@@ -50,4 +51,6 @@ export {
   LoginOtpVerification,
   AddClosetProducts,
   EditClosetProducts,
+  Payment,
+  OrderStatus,
 };

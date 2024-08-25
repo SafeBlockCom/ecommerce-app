@@ -31,4 +31,8 @@ export const API_ENDPOINTS = {
   CLOSET: "/closet",
 
   GET_CATEGORY_DETAIL: "/categories",
+
+  CREATE_ORDER: "/order/create",
+  PAY_ORDER: "/order/pay",
+  STATUS_ORDER: "/order/status",
 };

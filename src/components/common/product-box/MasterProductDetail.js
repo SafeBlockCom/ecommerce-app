@@ -19,7 +19,6 @@ const MasterProductDetail = ({
   for (var i = 0; i < rating; i++) {
     RatingStars.push(<i className="fa fa-star" key={i}></i>);
   }
-  console.log("--issue: ", product.price);
   return (
     <div className={`product-detail ${productDetail} ${detailClass}`}>
       <div>

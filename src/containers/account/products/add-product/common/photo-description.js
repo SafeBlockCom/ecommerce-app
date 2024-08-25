@@ -316,23 +316,6 @@ const PhotoAndDescription = forwardRef((props, ref) => {
                 className="col-12"
                 placeholder="Enter product description"
               />
-              {/* {editorLoaded ? (
-                <CKEditor
-                  editor={ClassicEditor}
-                  data={description}
-                  config={CONSTANTS.CKEDITOR_CONFIG}
-                  onReady={(editor) => {
-                    // You can store the "editor" and use when it is needed.
-                    console.log("Editor is ready to use!", editor);
-                  }}
-                  onChange={(event, editor) => {
-                    const data = editor.getData();
-                    setDescription(data);
-                  }}
-                />
-              ) : (
-                <p>Editor loading for product description</p>
-              )} */}
             </>
           </div>
         </Col>

@@ -4,7 +4,7 @@ import React, { useState, useContext } from "react";
 import CartContext from "../../context/cart";
 import { Container, Row, Col, Media, Input } from "reactstrap";
 import { CurrencyContext } from "../../context/Currency/CurrencyContext";
-import { IMAGE_SRC, ROUTE_CONSTANTS } from "../../utils";
+import { HELPER, IMAGE_SRC, ROUTE_CONSTANTS } from "../../utils";
 import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
@@ -14,6 +14,7 @@ const CartPage = () => {
   const curContext = useContext(CurrencyContext);
   const symbol = curContext.selectedCurr.symbol;
   const total = context.cartTotal;
+  const cartShipmentTotal = context.cartShipmentTotal;
   const removeFromCart = context.removeFromCart;
   const [quantity, setQty] = useState(1);
   const [quantityError, setQuantityError] = useState(false);
@@ -25,25 +26,6 @@ const CartPage = () => {
       updateQty(item, quantity);
     } else {
       setQuantityError(true);
-    }
-  };
-
-  const changeQty = (e) => {
-    setQuantity(parseInt(e.target.value));
-  };
-
-  const minusQty = () => {
-    if (quantity > 1) {
-      setStock("InStock");
-      setQty(quantity - 1);
-    }
-  };
-
-  const plusQty = (product) => {
-    if (product.qty >= quantity) {
-      setQty(quantity + 1);
-    } else {
-      setStock("Out of stock !");
     }
   };
 
@@ -62,11 +44,16 @@ const CartPage = () => {
                       <th scope="col">price</th>
                       <th scope="col">quantity</th>
                       <th scope="col">shipping cost</th>
-                      <th scope="col">action</th>
+                      <th scope="col">sub total</th>
                       <th scope="col">total</th>
+                      <th scope="col">action</th>
                     </tr>
                   </thead>
                   {cartItems.map((item, index) => {
+                    const shippingPrice =
+                      item?.shipping_price <= 0
+                        ? item.shipping_price
+                        : item?.shipping_cost;
                     return (
                       <tbody key={index}>
                         <tr>
@@ -116,7 +103,7 @@ const CartPage = () => {
                               </div>
                               <div className="col-xs-3">
                                 <h2 className="td-color">
-                                  {`${symbol} ${item.price}`}
+                                  {`${symbol} n ${item.price}`}
                                 </h2>
                               </div>
                               <div className="col-xs-3">
@@ -132,7 +119,7 @@ const CartPage = () => {
                             </div>
                           </td>
                           <td>
-                            <h2>{`${symbol} ${item.discounted_price}`}</h2>
+                            <h2>{`${symbol} ${item.price}`}</h2>
                           </td>
                           <td>
                             <div className="qty-box">
@@ -154,19 +141,25 @@ const CartPage = () => {
                             {item.qty >= item.stock ? "out of Stock" : ""}
                           </td>
                           <td>
-                            <h4>{`${symbol} ${item.shipping_cost}`}</h4>
-                          </td>
-                          <td>
-                            <i
-                              className="fa fa-times"
-                              onClick={() => removeFromCart(item)}
-                            ></i>
+                            <h4>{`${symbol} ${shippingPrice}`}</h4>
                           </td>
                           <td>
                             <h2 className="td-color">
                               {symbol}
                               {item.total}
                             </h2>
+                          </td>
+                          <td>
+                            <h2 className="td-color">
+                              {symbol}
+                              {item.total + shippingPrice}
+                            </h2>
+                          </td>
+                          <td>
+                            <i
+                              className="fa fa-times"
+                              onClick={() => removeFromCart(item)}
+                            ></i>
                           </td>
                         </tr>
                       </tbody>
@@ -178,7 +171,7 @@ const CartPage = () => {
                     <tr>
                       <td>total price :</td>
                       <td>
-                        <h2>{`${symbol} ${total}`}</h2>
+                        <h2>{`${symbol} ${total + cartShipmentTotal}`}</h2>
                       </td>
                     </tr>
                   </tfoot>

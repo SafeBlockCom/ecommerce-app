@@ -75,13 +75,11 @@ body {
 }
 
 h1 {
-  font-size: 60px;
   color: $dark-font;
   font-weight: 700;
   text-transform: uppercase;
 
   span {
-    font-size: 107px;
     font-weight: 700;
     color: var(--theme-deafult);
   }
@@ -1279,14 +1277,14 @@ header {
   }
 
   .show-div {
-    top: 39px;
+    top: 25px;
     position: absolute;
     z-index: 9;
     background-color: #ffffff;
     transition: all linear 0.3s;
     min-width: 236px;
     text-align: left;
-    box-shadow: 0 0 1px 0 #7e7c7c;
+    box-shadow: 0 0 6px 0 #7e7c7c;
     transform: translateY(30px);
     opacity: 0;
     visibility: hidden;
@@ -1303,6 +1301,43 @@ header {
     }
   }
 }
+
+.cart-btns {
+  width: 100% !important;
+}
+
+.view-cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .cart-btns {
+    padding: 4px 6px;
+    border-radius: 14px;
+    border: 2px solid #232323;
+    background-image: linear-gradient(30deg, #232323 50%, transparent 50%);
+    background-size: 540px;
+    background-repeat: no-repeat;
+    background-position: 0;
+    transition: background 500ms ease-in-out;
+    color: #FFF !important;
+    font-size: 11px;
+    font-weight: 500;
+
+    &.checkout {
+      background-color: var(--theme-deafult);
+
+      /* Set a different background color for the checkout button */
+      &:hover {
+        background-color: #232323;
+        color: #FFF !important;
+        /* Change background color on hover for checkout */
+      }
+    }
+  }
+
+}
+
 
 .search-overlay {
   height: 100%;
@@ -1582,17 +1617,61 @@ header {
         // }
         .show-div {
           &.shopping-cart {
-            padding: 15px 15px;
-            min-width: 300px;
+            padding: 15px 1px;
+            min-width: 280px;
             left: unset;
             right: 0;
             max-height: 250px;
             overflow-y: auto;
 
-            li {
-              position: relative;
-              padding-bottom: 10px;
-              width: 100%;
+            .close-circle {
+              position: absolute;
+              top: 0;
+              right: 0;
+
+              i {
+                color: $grey-light;
+                transition: all 0.3s ease;
+
+                &:hover {
+                  color: $black;
+                  transition: all 0.3s ease;
+                }
+              }
+            }
+
+            .shopping-items {
+              .close-circle {
+                i {
+                  font-size: 20px;
+                  border: 1px solid #757575;
+                  border-radius: 50%;
+                  padding: 2px;
+                  margin: 7px;
+                }
+              }
+
+              // width: 100%;
+              &.cart-items {
+                margin: 15px;
+
+                .item {
+
+                  border-bottom: 1px solid #ddd;
+                  /* Add a light grey border */
+                  padding-bottom: 7px;
+                  /* Add some space inside the border */
+                  margin-bottom: 7px;
+                  /* Add space after the border */
+
+                  &:last-child {
+                    border-bottom: none;
+                    /* Remove the border for the last child */
+                    margin-bottom: 0;
+                    /* Remove the margin for the last child */
+                  }
+                }
+              }
 
               &:last-child {
                 padding-bottom: 0;
@@ -1617,21 +1696,6 @@ header {
                 }
               }
 
-              .close-circle {
-                position: absolute;
-                top: 0;
-                right: 0;
-
-                i {
-                  color: $grey-light;
-                  transition: all 0.3s ease;
-
-                  &:hover {
-                    color: $black;
-                    transition: all 0.3s ease;
-                  }
-                }
-              }
 
               .total {
                 border-top: 1px solid $border-grey;
@@ -1666,6 +1730,7 @@ header {
                   float: right;
                 }
               }
+
             }
           }
 
@@ -14323,4 +14388,212 @@ table {
 
 .i-100 {
   width: 100px;
+}
+
+// Container for the entire blockchain scroll area
+.blockchain-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 5rem;
+  position: relative;
+
+  .scroll-button {
+    position: absolute;
+    width: 2rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5; // Light background color
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0.8;
+    cursor: pointer;
+    z-index: 1000;
+
+    &.left {
+      left: 0;
+    }
+
+    &.right {
+      right: 0;
+    }
+  }
+}
+
+// Block wrapper
+.block {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 300px;
+  width: 300px;
+  margin: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 8px;
+  white-space: normal;
+
+  .hero {
+    margin-bottom: 1rem;
+
+    .hero-body {
+      padding: 1rem 0.75rem 2rem 0.75rem;
+      position: relative;
+    }
+  }
+
+  .is-size-5 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem !important;
+  }
+
+  .subtitle {
+    margin-bottom: 1rem;
+    font-size: 0.75rem !important;
+  }
+
+  .button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .has-background-success {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0.25rem 0.5rem;
+    background-color: #48c774; // Bulma's success color
+    color: white;
+    border-radius: 3px;
+  }
+
+  .table {
+    margin: 0;
+    width: 100%;
+    font-size: 0.875rem;
+
+    tr {
+      padding: 0.5rem 0;
+
+      i {
+        color: #3273dc; // Bulma's primary color
+      }
+    }
+  }
+
+  .p-75 {
+    border-top: 1px solid lightgrey;
+    padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+
+    p {
+      margin: 0;
+    }
+
+    .subtitle.is-ellipsis {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  .invalid-overlay {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: rgba(255, 0, 0, 0.1); // Slight red overlay
+    pointer-events: none;
+    color: red;
+    font-weight: bold;
+    z-index: 10;
+  }
+}
+
+.payment-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  color: #333;
+}
+
+.stripe-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.stripe-input .StripeElement {
+  width: 100%;
+  padding: 0 10px;
+  font-size: 16px;
+  color: #424770;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

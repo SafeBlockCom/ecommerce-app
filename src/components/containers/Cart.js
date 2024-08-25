@@ -91,7 +91,7 @@ const CartComponent = ({ icon, layout }) => {
                   </h5>
                 </div>
               </li>
-              <li>
+              <li className="cart-btns">
                 <div className="buttons">
                   <a
                     onClick={() => navigate("/cart")}

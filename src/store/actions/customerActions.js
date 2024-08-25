@@ -13,7 +13,6 @@ function FETCH_CUSTOMER_METADATA() {
     apiService
       .getCustomerMetaData()
       .then((response) => {
-        console.log("FETCH_CUSTOMER_METADATA response: ", response);
         const responseStatus = response?.data?.status;
         if (
           !HELPER.isEmpty(responseStatus) &&
@@ -24,7 +23,6 @@ function FETCH_CUSTOMER_METADATA() {
         }
       })
       .catch((error) => {
-        console.log("FETCH_CUSTOMER_METADATA response error: ", error);
         const { error_message } = HELPER.formatFailureApiResponse(error);
         dispatch(failure(error_message?.message));
         dispatch(ALERT_ACTIONS.error(error_message?.message));

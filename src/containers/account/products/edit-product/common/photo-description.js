@@ -308,23 +308,6 @@ const PhotoAndDescription = forwardRef((props, ref) => {
               <b>Description</b>
             </h5>
             <>
-              {/* {editorLoaded ? (
-                <CKEditor
-                  editor={ClassicEditor}
-                  data={description}
-                  config={CONSTANTS.CKEDITOR_CONFIG}
-                  onReady={(editor) => {
-                    // You can store the "editor" and use when it is needed.
-                    console.log("Editor is ready to use!", editor);
-                  }}
-                  onChange={(event, editor) => {
-                    const data = editor.getData();
-                    setDescription(data);
-                  }}
-                />
-              ) : (
-                <p>Editor loading for product description</p>
-              )} */}
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

@@ -40,6 +40,10 @@ export const apiService = {
   getPhoneVerification,
   getPhoneOtpVerify,
   getPhoneOtpReSend,
+
+  createOrder,
+  pay,
+  orderStatus,
 };
 
 async function getApplicationMetaData() {
@@ -59,7 +63,6 @@ async function getCustomerMetaData() {
 }
 
 async function getHomePage() {
-  console.log(`${baseURL}` + API_ENDPOINTS.GET_HOMEPAGE_CONTENTS);
   let response = await API_REQUEST(
     "get",
     `${baseURL}` + API_ENDPOINTS.GET_HOMEPAGE_CONTENTS,
@@ -95,6 +98,36 @@ async function getProductDetail(handle) {
     `${baseURL}${API_ENDPOINTS.GET_PRODUCT_DETAIL}/${handle}`,
     HELPER.isNotEmpty(access_token)
   )();
+}
+
+async function createOrder(data) {
+  console.log("data: ", data);
+  let access_token = COOKIE_STORAGE_SERVICE._getAccessToken();
+  return await API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.CREATE_ORDER}`,
+    HELPER.isNotEmpty(access_token)
+  )(data);
+}
+
+async function pay(data) {
+  console.log("data: ", data);
+  let access_token = COOKIE_STORAGE_SERVICE._getAccessToken();
+  return await API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.PAY_ORDER}`,
+    HELPER.isNotEmpty(access_token)
+  )(data);
+}
+
+async function orderStatus(data) {
+  console.log("data: ", data);
+  let access_token = COOKIE_STORAGE_SERVICE._getAccessToken();
+  return await API_REQUEST(
+    "post",
+    `${baseURL}${API_ENDPOINTS.STATUS_ORDER}`,
+    HELPER.isNotEmpty(access_token)
+  )(data);
 }
 
 async function getRecentlyViewed() {

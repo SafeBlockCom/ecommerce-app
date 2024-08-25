@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
@@ -11,6 +11,8 @@ import App from "./App.react";
 import { Provider as P, ErrorBoundary } from "@rollbar/react";
 // import { unregister } from "./ServiceWorker";
 import { internetConnectionHandler } from "./hooks";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 const rootElement = document.getElementById("root");
 
@@ -23,8 +25,17 @@ const rollbarConfig = {
     environment: process.env.REACT_APP_ENVIRONMENT,
   },
 };
-if (rootElement) {
-  ReactDOM.render(
+// Your Stripe public key
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+
+const container = document.getElementById("root");
+
+// Create a root.
+const root = createRoot(container);
+
+// Initial render: Render an element to the root.
+if (root) {
+  root.render(
     <P config={rollbarConfig}>
       <Provider store={store}>
         <ErrorBoundary>
@@ -32,14 +43,17 @@ if (rootElement) {
             <Detector
               render={({ online }) => {
                 internetConnectionHandler(online);
-                return <App />;
+                return (
+                  <Elements stripe={stripePromise}>
+                    <App />
+                  </Elements>
+                );
               }}
             />
           </PersistGate>
         </ErrorBoundary>
       </Provider>
-    </P>,
-    rootElement
+    </P>
   );
 } else {
   throw new Error("Could not find root element to mount to!");

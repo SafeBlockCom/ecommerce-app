@@ -11,6 +11,7 @@ import { PRODUCT_ACTIONS } from "./productPageActions";
 import { MENU_ITEM_ACTIONS } from "./menuItemsActions";
 import { AUTH_ACTIONS } from "./authActions";
 import { CATEGORY_ACTIONS } from "./categoryActions";
+import { ORDER_ACTIONS } from "./orderActions";
 
 export {
   ALERT_ACTIONS,
@@ -26,4 +27,5 @@ export {
   dialogAction,
   shippingAction,
   logoutAction,
+  ORDER_ACTIONS,
 };

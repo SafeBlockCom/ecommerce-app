@@ -23,7 +23,6 @@ const metaDataReducer = (state = initialState, action) => {
         appLoading: true,
       };
     case HOME_CONSTANTS.HOMEPAGE_META.SUCCESS:
-      console.log("-- ", action?.response);
       return {
         ...state,
         banners: action?.response?.banners,
