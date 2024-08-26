@@ -18,11 +18,8 @@ const CheckoutPage = () => {
   const { order_ref } = useSelector((state) => state.order);
 
   const cartContext = useContext(CartContext);
-  const cartItems = cartContext.state;
   const cartShipmentTotal = cartContext.cartShipmentTotal;
   const cartTotal = cartContext.cartTotal;
-  const curContext = useContext(CurrencyContext);
-  const symbol = curContext.selectedCurr.symbol;
   const [obj, setObj] = useState({});
   const [payment, setPayment] = useState("cod");
   const {
@@ -37,10 +34,6 @@ const CheckoutPage = () => {
     }
   }, [order_ref]);
 
-  // router.push({
-  //   pathname: "/order-success",
-  //   state: { items: cartItems, orderTotal: cartTotal, symbol: symbol },
-  // });
   const checkhandle = (value) => {
     setPayment(value);
   };
@@ -68,7 +61,12 @@ const CheckoutPage = () => {
         },
         payment: payment,
       };
-      dispatch(ORDER_ACTIONS.CREATE_ORDER(orderData));
+      try {
+        dispatch(ORDER_ACTIONS.CREATE_ORDER(orderData));
+      } catch (error) {
+        // Code that runs if an error occurs
+        console.error("An error occurred:", error.message);
+      }
     } else {
       errors.showMessages();
     }
@@ -266,41 +264,7 @@ const CheckoutPage = () => {
                                         defaultChecked={true}
                                         onClick={() => checkhandle("cod")}
                                       />
-                                      <label htmlFor="payment-2">COD</label>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div className="radio-option paypal">
-                                      <input
-                                        type="radio"
-                                        name="payment-group"
-                                        id="payment-1"
-                                        onClick={() => checkhandle("paypal")}
-                                      />
-                                      <label htmlFor="payment-1">
-                                        PayPal
-                                        <span className="image">
-                                          {/* <Media src={IMAGE_SRC.PAYPAL} alt="" /> */}
-                                        </span>
-                                      </label>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div className="radio-option stripe">
-                                      <input
-                                        type="radio"
-                                        name="payment-group"
-                                        id="payment-1"
-                                        onClick={() => checkhandle("stripe")}
-                                      />
-                                    </div>
-                                    <div className="radio-option stripe">
-                                      <label htmlFor="payment-1">
-                                        Stripe
-                                        <span className="image">
-                                          {/* <Media src={IMAGE_SRC.PAYPAL} alt="" /> */}
-                                        </span>
-                                      </label>
+                                      <label htmlFor="payment-2">Stripe</label>
                                     </div>
                                   </li>
                                 </ul>

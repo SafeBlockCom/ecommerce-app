@@ -1,4 +1,4 @@
-import { Input, TextField, Textarea } from "@mui/joy";
+import { Input } from "@mui/joy";
 import React, {
   forwardRef,
   useEffect,
@@ -11,12 +11,7 @@ import { Container, Row, Col } from "reactstrap";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
-import {
-  CONSTANTS,
-  HELPER,
-  history,
-  ROUTE_CONSTANTS,
-} from "../../../../../utils";
+import { CONSTANTS, HELPER, ROUTE_CONSTANTS } from "../../../../../utils";
 import { PRODUCT_ACTIONS } from "../../../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -126,19 +121,6 @@ const VariantsInfo = forwardRef((props, ref) => {
       price
     );
     setVariants(_variants);
-
-    setTimeout(() => {
-      try {
-        editorRef.current = {
-          CKEditor: require("@ckeditor/ckeditor5-react").CKEditor, //Added .CKEditor
-          ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
-        };
-        setEditorLoaded(true);
-      } catch (err) {
-        //window reload
-        navigate(ROUTE_CONSTANTS.PRODUCT_ADD);
-      }
-    }, 2000);
   }, []);
 
   useEffect(() => {

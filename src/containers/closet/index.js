@@ -63,7 +63,12 @@ const Closet = () => {
     useSelector((state) => state.closet);
 
   useEffect(() => {
-    dispatch(CLOSET_ACTIONS.GET_CLOSET_DETAILS(reference));
+    try {
+      dispatch(CLOSET_ACTIONS.GET_CLOSET_DETAILS(reference));
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
+    }
   }, []);
 
   const data = [];

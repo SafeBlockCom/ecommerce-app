@@ -23,7 +23,6 @@ const Payment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { customerRef } = useSelector((state) => state.auth);
   const { order_ref, payment_completed, payment_succeded, billing_details } =
     useSelector((state) => state.order);
   const stripe = useStripe();
@@ -33,60 +32,70 @@ const Payment = () => {
 
   const cartContext = useContext(CartContext);
   const cartItems = cartContext.state;
-  const cartShipmentTotal = cartContext.cartShipmentTotal;
   const cartTotal = cartContext.cartTotal;
-  const curContext = useContext(CurrencyContext);
-  const symbol = curContext.selectedCurr.symbol;
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsProcessing(true);
+    try {
+      event.preventDefault();
+      setIsProcessing(true);
 
-    if (!stripe || !elements) {
-      return;
-    }
+      if (!stripe || !elements) {
+        return;
+      }
 
-    const cardElement = elements.getElement(CardNumberElement);
+      const cardElement = elements.getElement(CardNumberElement);
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-      billing_details: billing_details,
-    });
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+        billing_details: billing_details,
+      });
 
-    if (error) {
-      setErrorMessage(error.message);
-      setIsProcessing(false);
-    } else {
-      console.log("PaymentMethod:", paymentMethod);
+      if (error) {
+        setErrorMessage(error.message);
+        setIsProcessing(false);
+      } else {
+        const orderData = {
+          order_ref,
+          payment_method: paymentMethod,
+          payment_method_id: paymentMethod.id,
+        };
+        try {
+          dispatch(ORDER_ACTIONS.PAY(stripe, orderData));
+        } catch (error) {
+          // Code that runs if an error occurs
+          console.error("An error occurred:", error.message);
+        }
+        // Send the paymentMethod.id to your backend
 
-      const orderData = {
-        order_ref,
-        payment_method: paymentMethod,
-        payment_method_id: paymentMethod.id,
-      };
-      dispatch(ORDER_ACTIONS.PAY(stripe, orderData));
-      // Send the paymentMethod.id to your backend
-
-      // setIsProcessing(false);
+        // setIsProcessing(false);
+      }
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
     }
   };
-  useEffect(async () => {
-    if (HELPER.isEmpty(order_ref)) {
-      navigate(ROUTE_CONSTANTS.BASE);
-    }
-  }, []);
 
   useEffect(() => {
     if (HELPER.isNotEmpty(payment_completed) && payment_completed == 1) {
       setIsProcessing(false);
     }
+    // Correct usage: Return nothing if no cleanup is needed.
+    // Do not return a non-function value from useEffect.
+    return () => {
+      // Optional cleanup function
+    };
   }, [payment_completed]);
 
   useEffect(() => {
     if (HELPER.isNotEmpty(payment_succeded) && payment_succeded == 1) {
       navigate(`${ROUTE_CONSTANTS.ORDER_STATUS_WITH_SLUG}/${order_ref}`);
     }
+    // Correct usage: Return nothing if no cleanup is needed.
+    // Do not return a non-function value from useEffect.
+    return () => {
+      // Optional cleanup function
+    };
   }, [payment_succeded]);
 
   return (
@@ -207,28 +216,6 @@ const Payment = () => {
                                 <CheckoutCartInfo showPayment={false} />
                               </ul>
                             </Row>
-                            <ul className="sub-total">
-                              <li>
-                                Subtotal{" "}
-                                <span className="count">
-                                  {`${symbol} ${cartTotal}`}
-                                </span>
-                              </li>
-                              <li>
-                                Shipping
-                                <span className="count">
-                                  {`${symbol} ${cartShipmentTotal}`}
-                                </span>
-                              </li>
-                            </ul>
-                            <ul className="total">
-                              <li>
-                                Total{" "}
-                                <span className="count">
-                                  {`${symbol} ${cartTotal + cartShipmentTotal}`}
-                                </span>
-                              </li>
-                            </ul>
                           </div>
                           <div className="payment-box">
                             {cartTotal !== 0 ? (

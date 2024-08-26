@@ -68,10 +68,6 @@ const closetConfig = {
   key: "closet",
   storage,
 };
-const categoryConfig = {
-  key: "category",
-  storage,
-};
 const productsConfig = {
   key: "products",
   storage,

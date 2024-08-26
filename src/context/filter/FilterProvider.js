@@ -143,20 +143,36 @@ export const FilterProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (HELPER.isNotEmpty(categorySlug) && categorySlug !== "") {
-      dispatch(
-        CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(categorySlug, getFilters())
-      );
-    } else if (HELPER.isEmpty(categoryTitle) && categorySlug !== "") {
-      dispatch(PRODUCT_ACTIONS.GET_ALL_PRODUCT_LIST());
+    try {
+      if (HELPER.isNotEmpty(categorySlug) && categorySlug !== "") {
+        dispatch(
+          CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(
+            categorySlug,
+            getFilters()
+          )
+        );
+      } else if (HELPER.isEmpty(categoryTitle) && categorySlug !== "") {
+        dispatch(PRODUCT_ACTIONS.GET_ALL_PRODUCT_LIST());
+      }
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
     }
   }, []);
 
   useEffect(() => {
-    if (HELPER.isNotEmpty(categorySlug)) {
-      dispatch(
-        CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(categorySlug, getFilters())
-      );
+    try {
+      if (HELPER.isNotEmpty(categorySlug)) {
+        dispatch(
+          CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(
+            categorySlug,
+            getFilters()
+          )
+        );
+      }
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
     }
   }, [categorySlug]);
 

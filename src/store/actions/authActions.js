@@ -2,7 +2,6 @@ import { CONSTANTS, COOKIE_STORAGE_SERVICE, HELPER } from "../../utils";
 import { AUTH_CONSTANTS } from "../actionTypes";
 import { apiService } from "../../store/middlewares/api_service";
 import { ALERT_ACTIONS } from "./alertActions";
-import { CUSTOMER_ACTIONS } from "./customerActions";
 
 export const AUTH_ACTIONS = {
   SIGNUP_YOUR_ACCOUNT,

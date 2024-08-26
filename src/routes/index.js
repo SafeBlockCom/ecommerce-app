@@ -1,7 +1,6 @@
-import { CATEGORY_ACTIONS } from "../store/actions";
-
 export const ROUTE_CONSTANTS = {
   BASE: "/",
+  BLOCKCHAIN: "/blockchain",
   SHOP: "/shop",
   ACCOUNT_DASHBOARD: "/account/dashboard/:closetRef",
   ACCOUNT_DASHBOARD_WITH_CLOSET_REF: "/account/dashboard",

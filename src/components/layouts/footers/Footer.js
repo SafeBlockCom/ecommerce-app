@@ -25,20 +25,20 @@ const Footer = ({
   const [isOpen, setIsOpen] = useState();
   const [collapse, setCollapse] = useState(0);
   const width = window.innerWidth < 750;
-  useEffect(() => {
-    const changeCollapse = () => {
-      if (window.innerWidth < 750) {
-        setCollapse(0);
-        setIsOpen(false);
-      } else setIsOpen(true);
-    };
+  // useEffect(() => {
+  //   const changeCollapse = () => {
+  //     if (window.innerWidth < 750) {
+  //       setCollapse(0);
+  //       setIsOpen(false);
+  //     } else setIsOpen(true);
+  //   };
 
-    window.addEventListener("resize", changeCollapse);
+  //   window.addEventListener("resize", changeCollapse);
 
-    return () => {
-      window.removeEventListener("resize", changeCollapse);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", changeCollapse);
+  //   };
+  // }, []);
   return (
     <div>
       <footer className={footerClass}>

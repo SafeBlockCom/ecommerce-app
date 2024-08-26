@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "react-phone-input-2/lib/style.css";
 import routes from "./route";
-import { ErrorBoundary, PrivateRoute, DefaultRoute } from "./components";
+import { ErrorBoundary, PrivateRoute } from "./components";
 
 import "./assets/scss/app.scss";
 import "./App.css";
@@ -43,21 +43,33 @@ function App() {
   // });
 
   useEffect(() => {
+    window.onerror = function (message, source, lineno, colno, error) {
+      console.log("Suppressed error:", message);
+      return true; // Prevent the default error handler
+    };
+
+    window.addEventListener("error", function (event) {
+      console.log("Suppressed error:", event.message);
+      event.preventDefault();
+    });
+
     setTimeout(function () {
       document.querySelectorAll(".loader-wrapper").style = "display: none";
     }, 2000);
 
-    if ((!closetRef || !isLoggedIn) && !customerMetaRequested) {
-      dispatch(CUSTOMER_ACTIONS.FETCH_CUSTOMER_METADATA());
-    }
+    try {
+      if ((!closetRef || !isLoggedIn) && !customerMetaRequested) {
+        dispatch(CUSTOMER_ACTIONS.FETCH_CUSTOMER_METADATA());
+      }
 
-    if (HELPER.isEmpty(meta?.app_title)) {
-      dispatch(HOMEPAGE_ACTIONS.FETCH_HOMEPAGE_APP_METADATA());
+      if (HELPER.isEmpty(meta?.app_title)) {
+        dispatch(HOMEPAGE_ACTIONS.FETCH_HOMEPAGE_APP_METADATA());
+      }
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
     }
-
-    return () => {
-      clearTimeout(2000);
-    };
+    return () => {};
   }, []);
   return (
     <>

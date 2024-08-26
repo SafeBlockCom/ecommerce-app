@@ -87,9 +87,14 @@ const ProductOptions = ({ product, attribute, selectedOption }) => {
     });
     if (HELPER.isNotEmpty(newAttributes)) {
       _variant_update.attributes = newAttributes;
-      dispatch(
-        PRODUCT_ACTIONS.SELECT_PRODUCT_VARIANT(product, _variant_update)
-      );
+      try {
+        dispatch(
+          PRODUCT_ACTIONS.SELECT_PRODUCT_VARIANT(product, _variant_update)
+        );
+      } catch (error) {
+        // Code that runs if an error occurs
+        console.error("An error occurred:", error.message);
+      }
     }
   };
 

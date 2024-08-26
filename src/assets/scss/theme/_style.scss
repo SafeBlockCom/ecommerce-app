@@ -14427,6 +14427,7 @@ table {
   flex-direction: column;
   position: relative;
   min-width: 300px;
+  max-width: 450px;
   width: 300px;
   margin: 0.5rem;
   padding: 1rem;
@@ -14489,7 +14490,15 @@ table {
   .p-75 {
     border-top: 1px solid lightgrey;
     padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+    word-wrap: break-word;
+    /* Break words that are too long */
+    overflow-wrap: break-word;
+    /* Handle overflow in modern browsers */
+    word-break: break-all;
+    /* Break long words at any point */
+    white-space: normal;
 
+    /* Allow normal wrapping of text */
     p {
       margin: 0;
     }
@@ -14596,4 +14605,15 @@ label {
 .submit-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.reward-text {
+  color: var(--theme-deafult);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  margin-top: -3px;
+}
+
+.fa-long-arrow-alt-right:before {
+  content: "\f30b";
 }

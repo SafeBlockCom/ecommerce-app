@@ -25,6 +25,7 @@ import TermsPage from "./Terms";
 import Wishlist from "./wishlist";
 import Payment from "./payment";
 import OrderStatus from "./status";
+import Blockchain from "./blockchain";
 export {
   Page404,
   Category,
@@ -53,4 +54,5 @@ export {
   EditClosetProducts,
   Payment,
   OrderStatus,
+  Blockchain,
 };

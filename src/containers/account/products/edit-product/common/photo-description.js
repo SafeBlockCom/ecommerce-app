@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 
@@ -15,7 +9,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import { Input } from "@mui/joy";
-import { CONSTANTS, HELPER, ROUTE_CONSTANTS } from "../../../../../utils";
+import { CONSTANTS, HELPER } from "../../../../../utils";
 import { PRODUCT_ACTIONS } from "../../../../../store/actions";
 import { useNavigate } from "react-router-dom";
 
@@ -76,27 +70,6 @@ const PhotoAndDescription = forwardRef((props, ref) => {
   const [description, setDescription] = useState(
     photo_and_description?.description
   );
-
-  const editorRef = useRef();
-  const [editorLoaded, setEditorLoaded] = useState(false);
-  const { CKEditor, ClassicEditor } = editorRef.current || {};
-
-  useEffect(() => {
-    setTimeout(() => {
-      try {
-        editorRef.current = {
-          CKEditor: require("@ckeditor/ckeditor5-react").CKEditor, //Added .CKEditor
-          ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
-        };
-        setEditorLoaded(true);
-      } catch (err) {
-        //window reload
-        navigate(
-          `${ROUTE_CONSTANTS.PRODUCT_EDIT_WITH_HANDLE}/${photo_and_description?.sku}`
-        );
-      }
-    }, 2000);
-  }, []);
 
   useImperativeHandle(ref, () => ({
     handleNextAction() {

@@ -46,7 +46,12 @@ const Signup = () => {
   useEffect(() => {
     ALERT_ACTIONS.clear();
     if (HELPER.isEmpty(metaCountryList)) {
-      dispatch(META_ACTIONS.COUNTRIES_LIST());
+      try {
+        dispatch(META_ACTIONS.COUNTRIES_LIST());
+      } catch (error) {
+        // Code that runs if an error occurs
+        console.error("An error occurred:", error.message);
+      }
     }
 
     if (isVerificationAttempt || retryOtp) {
@@ -65,17 +70,22 @@ const Signup = () => {
 
   const onSignupAction = () => {
     if (!authLoading && !isLoggedInSubmitPressed) {
-      dispatch(
-        AUTH_ACTIONS.SIGNUP_YOUR_ACCOUNT({
-          country: country?.code,
-          first_name: fName,
-          last_name: lName,
-          email_address: email,
-          password,
-          password_confirmation: cpassword,
-          subscription: subsStatus,
-        })
-      );
+      try {
+        dispatch(
+          AUTH_ACTIONS.SIGNUP_YOUR_ACCOUNT({
+            country: country?.code,
+            first_name: fName,
+            last_name: lName,
+            email_address: email,
+            password,
+            password_confirmation: cpassword,
+            subscription: subsStatus,
+          })
+        );
+      } catch (error) {
+        // Code that runs if an error occurs
+        console.error("An error occurred:", error.message);
+      }
       setIsLoggedInSubmitPressed(true);
     }
   };

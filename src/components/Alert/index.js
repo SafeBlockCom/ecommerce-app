@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { HELPER, CONSTANTS } from "../../utils";
+import { HELPER } from "../../utils";
 import { ALERT_ACTIONS } from "../../store/actions";
-
-let timeoutTime;
 
 function AlertComponent() {
   let dispatch = useDispatch();
@@ -19,9 +17,13 @@ function AlertComponent() {
     return () => {
       if (!HELPER.isEmpty(message) && hide) {
         HELPER.scrollScreen();
-        dispatch(ALERT_ACTIONS.clear());
+        try {
+          dispatch(ALERT_ACTIONS.clear());
+        } catch (error) {
+          // Code that runs if an error occurs
+          console.error("An error occurred:", error.message);
+        }
       }
-      clearTimeout(timeoutTime);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

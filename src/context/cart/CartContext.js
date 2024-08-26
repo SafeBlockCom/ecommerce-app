@@ -23,16 +23,9 @@ const CartProvider = (props) => {
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState("InStock");
   const [items, setItems] = useState([]);
-  console.log("-- cartItems: ", cartItems);
   useEffect(() => {
     const Total = cartItems.reduce((a, b) => a + b.total, 0);
-    console.log("Total: ", Total);
     const ShipmentTotal = cartItems.reduce((a, b) => {
-      console.log("Accumulator:", a);
-      console.log("Current Item:", b);
-      console.log("Shipping Price:", b?.shipping_price);
-      console.log("Shipping Cost:", b?.shipping_cost);
-
       const calculatedValue =
         a +
         (b?.shipping_price <= 0
@@ -41,16 +34,13 @@ const CartProvider = (props) => {
           ? b?.shipping_cost
           : 0);
 
-      console.log("Calculated Value:", calculatedValue);
       return calculatedValue;
     }, 0);
 
-    console.log("ShipmentTotal: ", ShipmentTotal);
     setCartShipmentTotal(ShipmentTotal);
     setCartTotal(Total);
 
     localStorage.setItem("cartList", JSON.stringify(cartItems));
-    console.log("items: ", items, " cartItems: ", cartItems);
 
     // Process each item in the cartItems array and add it to the items state
     const newItems = [];
@@ -85,8 +75,6 @@ const CartProvider = (props) => {
   const addToCart = (item, quantity) => {
     toast.success("Product Added Successfully !");
     const index = cartItems.findIndex((itm) => itm?.id === item?.id);
-    console.log("--addToCart--");
-    console.log("cartItems: ", cartItems, " item: ", item);
     if (index !== -1) {
       const _price = item.price - item.discounted_price;
       const ship_price =

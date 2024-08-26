@@ -129,7 +129,12 @@ const ProductSection = ({ customerRef }) => {
   const uniqueTags = [];
 
   useEffect(() => {
-    dispatch(PRODUCT_ACTIONS.GET_RECENTLY_VIEWED_PRODUCT());
+    try {
+      dispatch(PRODUCT_ACTIONS.GET_RECENTLY_VIEWED_PRODUCT());
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
+    }
   }, []);
 
   const changeQty = (e) => {

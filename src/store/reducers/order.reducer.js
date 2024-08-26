@@ -1,4 +1,3 @@
-import { act } from "react";
 import { ORDER_CONSTANTS, RESET_DETAILS } from "../actionTypes";
 
 const initialState = {

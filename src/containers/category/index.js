@@ -73,13 +73,23 @@ const Category = () => {
   const { data } = products;
 
   useEffect(() => {
-    dispatch(CATEGORY_ACTIONS.GET_CATEGORY_DETAILS(slug));
-    dispatch(CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(slug));
+    try {
+      dispatch(CATEGORY_ACTIONS.GET_CATEGORY_DETAILS(slug));
+      dispatch(CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(slug));
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
+    }
   }, []);
 
   useEffect(() => {
-    dispatch(CATEGORY_ACTIONS.GET_CATEGORY_DETAILS(slug));
-    dispatch(CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(slug));
+    try {
+      dispatch(CATEGORY_ACTIONS.GET_CATEGORY_DETAILS(slug));
+      dispatch(CATEGORY_ACTIONS.GET_CATEGORY_PRODUCT_ITEMS(slug));
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
+    }
   }, [slug]);
 
   return (

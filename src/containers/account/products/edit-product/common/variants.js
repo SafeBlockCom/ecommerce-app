@@ -1,4 +1,4 @@
-import { Input, TextField, Textarea } from "@mui/joy";
+import { Input } from "@mui/joy";
 import React, {
   forwardRef,
   useEffect,
@@ -79,10 +79,6 @@ function objectToArr(oldObj, keyName) {
   }));
 }
 
-function filter(data, keyName) {
-  return data.filter((i, key) => i[key] === keyName);
-}
-
 const VariantsInfo = forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -102,8 +98,6 @@ const VariantsInfo = forwardRef((props, ref) => {
   const { description, discountedPrice, price } = photo_and_description;
 
   const editorRef = useRef();
-  const [editorLoaded, setEditorLoaded] = useState(false);
-  const { CKEditor, ClassicEditor } = editorRef.current || {};
   const [variantDescription, setVariantDescription] = useState("");
   const [variantQty, setVariantQty] = useState("");
   const [variantPrice, setVariantPrice] = useState("");
@@ -126,21 +120,6 @@ const VariantsInfo = forwardRef((props, ref) => {
       price
     );
     setVariants(_variants);
-
-    setTimeout(() => {
-      try {
-        editorRef.current = {
-          CKEditor: require("@ckeditor/ckeditor5-react").CKEditor, //Added .CKEditor
-          ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
-        };
-        setEditorLoaded(true);
-      } catch (err) {
-        //window reload
-        navigate(
-          `${ROUTE_CONSTANTS.PRODUCT_EDIT_WITH_HANDLE}/${photo_and_description?.sku}`
-        );
-      }
-    }, 2000);
   }, []);
 
   useEffect(() => {
@@ -188,31 +167,36 @@ const VariantsInfo = forwardRef((props, ref) => {
       };
     },
     handleWizardCompleteAction() {
-      dispatch(
-        PRODUCT_ACTIONS.ADD_NEW_PRODUCT({
-          name: photo_and_description?.name,
-          sku: photo_and_description?.sku,
-          short_description: photo_and_description?.description,
-          price: photo_and_description?.price,
-          discounted_price: photo_and_description?.discountedPrice,
-          category: {
-            parent: item_information?.category?.value,
-            child: item_information?.subCategory?.value,
-          },
-          brands: item_information?.brand,
-          max_quantity: item_information?.quantity,
-          variants: HELPER.isNotEmpty(product_variants?.variants)
-            ? product_variants?.variants
-            : variants,
-          images: photo_and_description?.images,
-          shipment: {
-            country: shipment_and_location?.country?.id,
-            freeShipping: shipment_and_location?.freeShipping,
-            shippingPrice: shipment_and_location?.shippingPrice,
-            worldWideShipping: shipment_and_location?.worldWideShipping,
-          },
-        })
-      );
+      try {
+        dispatch(
+          PRODUCT_ACTIONS.ADD_NEW_PRODUCT({
+            name: photo_and_description?.name,
+            sku: photo_and_description?.sku,
+            short_description: photo_and_description?.description,
+            price: photo_and_description?.price,
+            discounted_price: photo_and_description?.discountedPrice,
+            category: {
+              parent: item_information?.category?.value,
+              child: item_information?.subCategory?.value,
+            },
+            brands: item_information?.brand,
+            max_quantity: item_information?.quantity,
+            variants: HELPER.isNotEmpty(product_variants?.variants)
+              ? product_variants?.variants
+              : variants,
+            images: photo_and_description?.images,
+            shipment: {
+              country: shipment_and_location?.country?.id,
+              freeShipping: shipment_and_location?.freeShipping,
+              shippingPrice: shipment_and_location?.shippingPrice,
+              worldWideShipping: shipment_and_location?.worldWideShipping,
+            },
+          })
+        );
+      } catch (error) {
+        // Code that runs if an error occurs
+        console.error("An error occurred:", error.message);
+      }
     },
   }));
 
@@ -332,29 +316,6 @@ const VariantsInfo = forwardRef((props, ref) => {
                             <h6>
                               <b>Description</b>
                             </h6>
-                            {/* {editorLoaded ? (
-                              <CKEditor
-                                editor={ClassicEditor}
-                                data={variantDescription[key] ?? ""}
-                                config={CONSTANTS.CKEDITOR_CONFIG}
-                                onReady={(editor) => {
-                                  // You can store the "editor" and use when it is needed.
-                                  console.log(
-                                    "Editor is ready to use!",
-                                    editor
-                                  );
-                                }}
-                                onChange={(event, editor) => {
-                                  const data = editor.getData();
-                                  setVariantDescription({
-                                    ...variantDescription,
-                                    [key]: data,
-                                  });
-                                }}
-                              />
-                            ) : (
-                              <p>Editor loading for product description</p>
-                            )} */}
                             <textarea
                               value={description}
                               onChange={(e) =>

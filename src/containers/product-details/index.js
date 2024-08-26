@@ -16,12 +16,22 @@ const ProductDetail = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    dispatch(PRODUCT_ACTIONS.GET_PRODUCT_DETAIL(handle));
+    try {
+      dispatch(PRODUCT_ACTIONS.GET_PRODUCT_DETAIL(handle));
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
+    }
   }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    dispatch(PRODUCT_ACTIONS.GET_PRODUCT_DETAIL(handle));
+    try {
+      dispatch(PRODUCT_ACTIONS.GET_PRODUCT_DETAIL(handle));
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
+    }
   }, [handle]);
 
   return (

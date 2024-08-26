@@ -101,7 +101,6 @@ async function getProductDetail(handle) {
 }
 
 async function createOrder(data) {
-  console.log("data: ", data);
   let access_token = COOKIE_STORAGE_SERVICE._getAccessToken();
   return await API_REQUEST(
     "post",
@@ -111,7 +110,6 @@ async function createOrder(data) {
 }
 
 async function pay(data) {
-  console.log("data: ", data);
   let access_token = COOKIE_STORAGE_SERVICE._getAccessToken();
   return await API_REQUEST(
     "post",
@@ -121,7 +119,6 @@ async function pay(data) {
 }
 
 async function orderStatus(data) {
-  console.log("data: ", data);
   let access_token = COOKIE_STORAGE_SERVICE._getAccessToken();
   return await API_REQUEST(
     "post",

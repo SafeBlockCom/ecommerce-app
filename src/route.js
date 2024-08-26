@@ -4,10 +4,6 @@ import {
   Home,
   Shop,
   SignUp,
-  Dashboard,
-  LoginMobileVerification,
-  LoginOtpVerification,
-  EditClosetProducts,
   Page404,
   Category,
   CheckoutPage,
@@ -25,6 +21,7 @@ import {
   AboutUs,
   Payment,
   OrderStatus,
+  Blockchain,
 } from "./containers";
 
 const routes = [
@@ -35,6 +32,15 @@ const routes = [
     protected: false,
     default: false,
     view: "Base",
+    allowBack: false,
+  },
+  {
+    path: ROUTE_CONSTANTS.BLOCKCHAIN,
+    exact: true,
+    component: Blockchain,
+    protected: false,
+    default: false,
+    view: "Blockchain",
     allowBack: false,
   },
   {

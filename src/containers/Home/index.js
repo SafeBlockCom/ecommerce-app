@@ -27,8 +27,13 @@ export default function Home(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(HOMEPAGE_ACTIONS.GET_HOMEPAGE_CONTENTS());
-    dispatch(HOMEPAGE_ACTIONS.GET_MEGA_MENU_CONTENTS());
+    try {
+      dispatch(HOMEPAGE_ACTIONS.GET_HOMEPAGE_CONTENTS());
+      dispatch(HOMEPAGE_ACTIONS.GET_MEGA_MENU_CONTENTS());
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
+    }
   }, []);
 
   return appLoading ? (

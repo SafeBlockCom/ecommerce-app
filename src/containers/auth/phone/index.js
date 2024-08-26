@@ -73,12 +73,17 @@ const LoginMobileVerification = () => {
     let validationCheck = handleValidation();
     if (validationCheck.phone_number === "") {
       if (!authLoading) {
-        dispatch(
-          AUTH_ACTIONS.VERIFY_YOUR_PHONE({
-            phone_number: phoneNumber.replace(country.dialCode, ""),
-            country_code: country.dialCode,
-          })
-        );
+        try {
+          dispatch(
+            AUTH_ACTIONS.VERIFY_YOUR_PHONE({
+              phone_number: phoneNumber.replace(country.dialCode, ""),
+              country_code: country.dialCode,
+            })
+          );
+        } catch (error) {
+          // Code that runs if an error occurs
+          console.error("An error occurred:", error.message);
+        }
       }
     }
   };

@@ -56,14 +56,17 @@ const SignIn = () => {
     ) {
       navigate(-1);
     }
-
-    if (HELPER.isEmpty(authBanners)) {
-      // dispatch(HOMEPAGE_ACTIONS.FETCH_HOMEPAGE_APP_METADATA());
+    try {
+      if (HELPER.isEmpty(authBanners)) {
+        // dispatch(HOMEPAGE_ACTIONS.FETCH_HOMEPAGE_APP_METADATA());
+      }
+      if (HELPER.isEmpty(metaCountryList)) {
+        dispatch(META_ACTIONS.COUNTRIES_LIST());
+      }
+    } catch (error) {
+      // Code that runs if an error occurs
+      console.error("An error occurred:", error.message);
     }
-    if (HELPER.isEmpty(metaCountryList)) {
-      dispatch(META_ACTIONS.COUNTRIES_LIST());
-    }
-
     return () => {};
   }, []);
 

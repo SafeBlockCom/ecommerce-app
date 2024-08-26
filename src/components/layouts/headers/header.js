@@ -56,6 +56,15 @@ const Header = (props) => {
                             ? "Create Closet"
                             : "Sign Up"}
                         </li>
+
+                        <li
+                          className="onhover-div create-closet btn btn-solid black-btn"
+                          onClick={() => {
+                            navigate(ROUTE_CONSTANTS.BLOCKCHAIN);
+                          }}
+                        >
+                          View Blockchain
+                        </li>
                       </ul>
                     </div>
                   </div>
